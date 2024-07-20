@@ -21,13 +21,15 @@ func _process(_delta):
 
 
 #region: --- Methods ---
-func get_act(action: String = ""):
+## Takes a node name as parameter and returns a [Button]
+func get_act(action: String = "") -> Button:
 	if action == "": 
 		return $HBox/Actions
 	return $HBox/Actions.get_node(action)
 
 
-func is_mouse_hovering_button():
+## Returns whether [VBoxContainer] "Actions"' children are currently hovered
+func is_mouse_hovering_button() -> bool:
 	if $HBox/Actions.visible:
 		for action in $HBox/Actions.get_children():
 			if action.get_global_rect().has_point(get_viewport().get_mouse_position()): 
@@ -35,10 +37,14 @@ func is_mouse_hovering_button():
 	return false
 
 
-func set_visibility_of_actions_menu(v, p):
-	if !$HBox/Actions.visible: $HBox/Actions/Move.grab_focus()
+## Makes action menu visible or hidden based on provided pawn's state
+func set_actions_menu_visibility(v: bool, p: TacticsPawn) -> void:
+	if !$HBox/Actions.visible: 
+		$HBox/Actions/Move.grab_focus()
 	$HBox/Actions.visible = v and p.can_act()
-	if !p: return
+	if !p: 
+		return
+	
 	$HBox/Actions/Move.disabled = !p.can_move
 	$HBox/Actions/Attack.disabled = !p.can_attack
 #endregion

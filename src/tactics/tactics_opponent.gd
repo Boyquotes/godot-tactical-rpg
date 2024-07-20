@@ -90,7 +90,7 @@ func post_configure() -> bool:
 
 func act(delta) -> void:
 	targets = get_parent().get_node("Player")
-	ui_control.set_visibility_of_actions_menu(false, null)
+	ui_control.set_actions_menu_visibility(false, null)
 	match stage:
 		0: choose_pawn()
 		1: chase_nearest_enemy()

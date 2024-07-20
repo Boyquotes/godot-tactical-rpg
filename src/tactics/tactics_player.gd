@@ -53,7 +53,7 @@ func configure(my_arena: TacticsArena, my_camera: TacticsCamera, my_control: Tac
 func act(delta: float) -> void:
 	_move_camera()
 	_camera_rotation()
-	ui_control.set_visibility_of_actions_menu(stage in [1,2,3,5,6], curr_pawn)
+	ui_control.set_actions_menu_visibility(stage in [1,2,3,5,6], curr_pawn)
 	match stage:
 		0: _select_pawn()
 		1: _show_available_pawn_actions()
