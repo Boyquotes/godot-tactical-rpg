@@ -50,6 +50,6 @@ func _handle_turn(delta) -> void:
 	elif opponent.can_act(): 
 		opponent.act(delta)
 	else:
-		player.reset()
-		opponent.reset()
+		player.reset_turn()
+		opponent.reset_turn()
 #endregion

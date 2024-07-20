@@ -23,7 +23,7 @@ func can_act() -> bool:
 	return stage > 0
 
 
-func reset() -> void: 
+func reset_turn() -> void: 
 	for p in get_children(): p.reset_turn()
 
 

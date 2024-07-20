@@ -22,26 +22,21 @@ script = ExtResource("5")
 
 [node name="Pawn" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -3.5)
-pawn_class = null
-pawn_strategy = null
 pawn_name = "Clark"
 
 [node name="Pawn2" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, -3.5)
 pawn_class = 1
-pawn_strategy = null
 pawn_name = "Diana"
 
 [node name="Pawn3" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.5, -4.5)
 pawn_class = 2
-pawn_strategy = null
 pawn_name = "Bruno"
 
 [node name="Pawn4" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -4.5)
 pawn_class = 3
-pawn_strategy = null
 pawn_name = "Shiera"
 
 [node name="Opponent" type="Node3D" parent="."]
@@ -50,23 +45,19 @@ script = ExtResource("6")
 [node name="Pawn4" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.5, 3.5)
 pawn_class = 4
-pawn_strategy = null
 pawn_name = "Victor"
 
 [node name="Pawn6" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.5, 4.5)
 pawn_class = 4
-pawn_strategy = null
 pawn_name = "Garfield"
 
 [node name="Pawn5" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.5, 5.5)
 pawn_class = 6
-pawn_strategy = null
 pawn_name = "Kori"
 
 [node name="Pawn7" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.5, 4.5)
 pawn_class = 5
-pawn_strategy = null
 pawn_name = "Ricardo"

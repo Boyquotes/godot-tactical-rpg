@@ -1,6 +1,10 @@
 class_name Entity
 extends CharacterBody3D
-## MERGE this Class's content with your Entity model, adjusting as needed.
+## Maps the Entity Model. Edit & merge as needed.
+##
+## Entity components:
+## - Health
+## - 
 
 
 #region: --- Props ---

@@ -1,6 +1,6 @@
 class_name TacticsPawn
 extends CharacterBody3D
-## Handles Pawn movement, 
+## Handles Pawn round, movement, stats
 ##
 ## Used by: [TacticsLevel]
 
