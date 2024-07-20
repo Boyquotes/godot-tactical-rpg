@@ -122,11 +122,7 @@ func _is_pawn_centered():
 ## Selects the clicked pawn
 func _select_hovered_pawn():
 	var pawn = _get_3d_canvas_mouse_position(2)
-	var tile = func(): 
-		if !pawn:
-			_get_3d_canvas_mouse_position(1)
-		else:
-			pawn.get_tile()
+	var tile = _get_3d_canvas_mouse_position(1) if !pawn else pawn.get_tile()
 	arena.mark_hover_tile(tile)
 	return pawn if pawn else tile.get_tile_occupier() if tile else null
 
@@ -149,7 +145,7 @@ func _select_pawn():
 	curr_pawn.display_pawn_stats(true)
 	if Input.is_action_just_pressed("ui_accept") and curr_pawn.can_act() and curr_pawn in get_children():
 		tactics_camera.target = curr_pawn
-		stage = 1
+		stage = 1 
 
 
 ## 
