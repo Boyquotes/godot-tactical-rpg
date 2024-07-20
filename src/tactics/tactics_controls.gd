@@ -1,6 +1,6 @@
 class_name TacticsControls
 extends Control
-## Handles __________
+## Handles UI elements for the Tactics systems
 ##
 ## Used by: [TacticsLevel]
 
