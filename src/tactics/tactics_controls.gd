@@ -13,14 +13,17 @@ var is_joystick = false
 
 #region: --- Processing ---
 func _process(_delta):
-	if is_joystick: $HBox/VBox/ControllerHints.texture = layout_xbox
-	else: $HBox/VBox/ControllerHints.texture = layout_pc
+	if is_joystick: 
+		$HBox/VBox/ControllerHints.texture = layout_xbox
+	else: 
+		$HBox/VBox/ControllerHints.texture = layout_pc
 #endregion
 
 
 #region: --- Methods ---
 func get_act(action: String = ""):
-	if action == "": return $HBox/Actions
+	if action == "": 
+		return $HBox/Actions
 	return $HBox/Actions.get_node(action)
 
 
