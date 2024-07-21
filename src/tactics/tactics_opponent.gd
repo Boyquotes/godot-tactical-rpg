@@ -17,23 +17,29 @@ var ui_control: TacticsControls = null
 #endregion
 
 #region: --- Methods ---
+## Whether the opponent can act
 func can_act() -> bool:
 	for p in get_children():
 		if p.can_act(): return true
 	return stage > 0
 
 
+## Resets all pawns turn
 func reset_turn() -> void: 
-	for p in get_children(): p.reset_turn()
+	for p in get_children(): 
+		p.reset_turn()
 
 
-func configure(my_arena, my_camera, my_ui_control) -> void:
+## Initiates dependencies & selects a default pawn
+func configure(my_arena: TacticsArena, 
+		my_camera: TacticsCamera, my_ui_control: TacticsControls) -> void:
 	tactics_camera = my_camera
 	arena = my_arena
 	ui_control = my_ui_control
 	curr_pawn = get_children().front()
 
 
+## Whether every child pawn is configured
 func _is_pawn_configured() -> bool:
 	for pawn in get_children():
 		if !pawn.configure():
