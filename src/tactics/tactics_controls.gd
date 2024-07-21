@@ -39,12 +39,12 @@ func is_mouse_hovering_button() -> bool:
 
 ## Makes action menu visible or hidden based on provided pawn's state
 func set_actions_menu_visibility(v: bool, p: TacticsPawn) -> void:
-	if !$HBox/Actions.visible: 
+	if not $HBox/Actions.visible: 
 		$HBox/Actions/Move.grab_focus()
 	$HBox/Actions.visible = v and p.can_act()
-	if !p: 
+	if not p: 
 		return
 	
-	$HBox/Actions/Move.disabled = !p.can_move
-	$HBox/Actions/Attack.disabled = !p.can_attack
+	$HBox/Actions/Move.disabled = not p.can_move
+	$HBox/Actions/Attack.disabled = not p.can_attack
 #endregion

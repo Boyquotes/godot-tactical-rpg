@@ -53,7 +53,7 @@ func _process(delta) -> void:
 # Camera Modes
 ## Panning (WASD)   ||   h = left/right angle, v = up/down angle
 func move_camera(h: float, v: float, joystick: bool) -> void:
-	if !joystick and h == 0 and v == 0 or target: 
+	if not joystick and h == 0 and v == 0 or target: 
 		return
 	
 	var angle = (atan2(-h, v)) + t_pivot.get_rotation().y
@@ -94,7 +94,7 @@ func free_look(delta) -> void:
 
 ## Focus mode   ||   provided a target, camera locks onto it
 func _follow() -> void:
-	if !target: return
+	if not target: return
 	
 	var from = global_transform.origin
 	var to = target.global_transform.origin

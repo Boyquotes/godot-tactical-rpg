@@ -25,7 +25,7 @@ func _exit_tree():
 	buttons.clear()
 
 func collapse_files():
-	if !filesystem_tree: return
+	if not filesystem_tree: return
 	var tree_root := filesystem_tree.get_root()
 	
 	for i in tree_root.get_child_count():

@@ -42,11 +42,11 @@ func get_nearest_target_adjacent_tile(
 	for _p in target_pawns:
 		if _p.curr_health <= 0: continue
 		for _n in _p.get_tile().get_neighbors(pawn.jump_height):
-			if !_nearest_target or _n.pf_distance < _nearest_target.pf_distance:
-				if _n.pf_distance > 0 and !_n.is_taken():
+			if not _nearest_target or _n.pf_distance < _nearest_target.pf_distance:
+				if _n.pf_distance > 0 and not _n.is_taken():
 					_nearest_target = _n
 	
-	while _nearest_target and !_nearest_target.reachable: 
+	while _nearest_target and not _nearest_target.reachable: 
 		_nearest_target = _nearest_target.pf_root
 	
 	if _nearest_target:
@@ -60,7 +60,7 @@ func get_weakest_attackable_pawn(pawn_arr: Array) -> TacticsPawn:
 	var _weakest = null
 	
 	for _p in pawn_arr:
-		if !_weakest or _p.curr_health < _weakest.curr_health:
+		if not _weakest or _p.curr_health < _weakest.curr_health:
 			if _p.curr_health > 0 and _p.get_tile().attackable:
 				_weakest = _p
 	
@@ -74,7 +74,7 @@ func get_surrounding_tiles(
 		root_tile: TacticsTile, radius: float, allies_on_map: Array = []):
 	var _tiles = [root_tile]
 	
-	while !_tiles.is_empty():
+	while not _tiles.is_empty():
 		var _curr_tile: TacticsTile = _tiles.pop_front()
 		var _add_to_tiles_list = func _add(_neighbor):
 			_neighbor.pf_root = _curr_tile
@@ -82,12 +82,12 @@ func get_surrounding_tiles(
 			_tiles.push_back(_neighbor)
 		
 		for _neighbor in _curr_tile.get_neighbors(radius):
-			if !_neighbor.pf_root and _neighbor != root_tile:
-				#if !(neighbor.is_taken() and allies_arr and !neighbor.get_tile_occupier() in allies_arr):
-				if !_neighbor.is_taken():
+			if not _neighbor.pf_root and _neighbor != root_tile:
+				#if not (neighbor.is_taken() and allies_arr and not neighbor.get_tile_occupier() in allies_arr):
+				if not _neighbor.is_taken():
 					_add_to_tiles_list.call(_neighbor)
-				elif !(allies_on_map.size() > 0):
-					if !(_neighbor.get_tile_occupier() in allies_on_map):
+				elif not (allies_on_map.size() > 0):
+					if not (_neighbor.get_tile_occupier() in allies_on_map):
 						_add_to_tiles_list.call(_neighbor)
 
 
@@ -105,7 +105,7 @@ func mark_reachable_tiles(root: TacticsTile, distance: float):
 	for _t in $Tiles.get_children():
 		var _has_dist = _t.pf_distance > 0
 		var _reachable = _t.pf_distance <= distance
-		var _not_taken = !_t.is_taken()
+		var _not_taken = not _t.is_taken()
 		var _is_root = _t == root
 		
 		_t.reachable = (_has_dist and _reachable and _not_taken) or _is_root

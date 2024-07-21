@@ -103,8 +103,8 @@ func _start_animator() -> void:
 
 ## Triggers movement and animates pawn along the tilestack path (if pawn can move)
 func _move_along_path(delta: float) -> void:
-	if !pathfinding_tilestack.is_empty(): 
-		if !can_move: return
+	if not pathfinding_tilestack.is_empty(): 
+		if not can_move: return
 		if _move_direction == Vector3(0,0,0): 
 			_move_direction = pathfinding_tilestack.front() - global_transform.origin
 
@@ -138,7 +138,7 @@ func _move_along_path(delta: float) -> void:
 		_is_jumping = false
 		_gravity = Vector3.ZERO
 		can_move = pathfinding_tilestack.size() > 0
-		if !can_move:
+		if not can_move:
 			_adjust_to_center()
 
 ## Used when the user input is "Wait" -- effectively ends current pawn's turn
@@ -189,7 +189,7 @@ func _load_stats() -> void:
 
 ## Makes the pawn half-transparent when it's done with its round
 func _tint_when_unable_to_act() -> void:
-	$Character.modulate = Color(.5, .5, .5) if !can_act() else Color(1,1,1)
+	$Character.modulate = Color(.5, .5, .5) if not can_act() else Color(1,1,1)
 
 
 ## Makes pawn stats visible

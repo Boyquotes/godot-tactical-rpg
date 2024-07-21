@@ -54,7 +54,7 @@ func reset_turn() -> void:
 ## Whether every child pawn is configured
 func _is_pawn_configured() -> bool:
 	for pawn in get_children():
-		if !pawn.configure():
+		if not pawn.configure():
 			return false
 	return true
 
@@ -98,10 +98,10 @@ func _choose_pawn_to_attack() -> void:
 
 ## Executes the attack on the target pawn. Handles  attack-adjacent logic and resets the stage after the attack is completed.
 func _attack_pawn(delta) -> void:
-	if !attackable_pawn: 
+	if not attackable_pawn: 
 		curr_pawn.can_attack = false
 	else:
-		if !curr_pawn.do_attack(attackable_pawn, delta): return
+		if not curr_pawn.do_attack(attackable_pawn, delta): return
 		attackable_pawn.display_pawn_stats(false)
 		tactics_camera.target = curr_pawn
 	attackable_pawn = null
