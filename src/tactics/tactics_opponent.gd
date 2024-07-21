@@ -17,6 +17,27 @@ var ui_control: TacticsControls = null
 #endregion
 
 #region: --- Methods ---
+## Main function for the opponent's actions. Controls the flow of actions for the opponent based on the current stage.
+func act(delta) -> void:
+	targets = get_parent().get_node("Player")
+	ui_control.set_actions_menu_visibility(false, null)
+	match stage:
+		0: _choose_pawn()
+		1: _chase_nearest_enemy()
+		2: _is_pawn_done_moving()
+		3: _choose_pawn_to_attack()
+		4: _attack_pawn(delta)
+
+
+## Initiates dependencies & selects a default pawn
+func configure(my_arena: TacticsArena, 
+		my_camera: TacticsCamera, my_ui_control: TacticsControls) -> void:
+	tactics_camera = my_camera
+	arena = my_arena
+	ui_control = my_ui_control
+	curr_pawn = get_children().front()
+
+
 ## Whether the opponent can act
 func can_act() -> bool:
 	for p in get_children():
@@ -30,15 +51,6 @@ func reset_turn() -> void:
 		p.reset_turn()
 
 
-## Initiates dependencies & selects a default pawn
-func configure(my_arena: TacticsArena, 
-		my_camera: TacticsCamera, my_ui_control: TacticsControls) -> void:
-	tactics_camera = my_camera
-	arena = my_arena
-	ui_control = my_ui_control
-	curr_pawn = get_children().front()
-
-
 ## Whether every child pawn is configured
 func _is_pawn_configured() -> bool:
 	for pawn in get_children():
@@ -47,14 +59,16 @@ func _is_pawn_configured() -> bool:
 	return true
 
 
-func choose_pawn() -> void:
+## Opponent pawn selection
+func _choose_pawn() -> void:
 	arena.reset_all_tile_markers()
 	for p in get_children():
 		if p.can_act(): curr_pawn = p 
 	stage = 1
 
 
-func chase_nearest_enemy() -> void:
+## Move towards the nearest enemy
+func _chase_nearest_enemy() -> void:
 	arena.reset_all_tile_markers()
 	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.jump_height, get_children())
 	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.move_radius)
@@ -64,12 +78,14 @@ func chase_nearest_enemy() -> void:
 	stage = 2
 
 
-func move_pawn() -> void:
+## Whether pawn movement is finished
+func _is_pawn_done_moving() -> void:
 	if curr_pawn.pathfinding_tilestack.is_empty(): 
 		stage = 3
 
 
-func choose_pawn_to_attack() -> void:
+## Whether pawn movement is finished
+func _choose_pawn_to_attack() -> void:
 	arena.reset_all_tile_markers()
 	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
 	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
@@ -80,8 +96,10 @@ func choose_pawn_to_attack() -> void:
 	stage = 4 
 
 
-func attack_pawn(delta) -> void:
-	if !attackable_pawn: curr_pawn.can_attack = false
+## Executes the attack on the target pawn. Handles  attack-adjacent logic and resets the stage after the attack is completed.
+func _attack_pawn(delta) -> void:
+	if !attackable_pawn: 
+		curr_pawn.can_attack = false
 	else:
 		if !curr_pawn.do_attack(attackable_pawn, delta): return
 		attackable_pawn.display_pawn_stats(false)
@@ -90,17 +108,7 @@ func attack_pawn(delta) -> void:
 	stage = 0
 
 
+## Ensures all pawns are configured. Returns true if all pawns are.
 func post_configure() -> bool:
 	return _is_pawn_configured()
-
-
-func act(delta) -> void:
-	targets = get_parent().get_node("Player")
-	ui_control.set_actions_menu_visibility(false, null)
-	match stage:
-		0: choose_pawn()
-		1: chase_nearest_enemy()
-		2: move_pawn()
-		3: choose_pawn_to_attack()
-		4: attack_pawn(delta)
 #endregion

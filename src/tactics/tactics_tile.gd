@@ -16,11 +16,11 @@ var hover: bool = false
 var pf_root: TacticsTile ## Pathfinding starting point.[br]Used by [TacticsArena]
 var pf_distance: float ## The distance to cover.[br]Used by [TacticsArena]
 # ------- colors -------
-var hover_mat:  StandardMaterial3D = TacticsConfig.material.hover
-var reachable_mat: StandardMaterial3D = TacticsConfig.material.reachable
-var hover_reachable_mat: StandardMaterial3D = TacticsConfig.material.reachable_hover
-var attackable_mat: StandardMaterial3D = TacticsConfig.material.attackable
-var hover_attackable_mat: StandardMaterial3D = TacticsConfig.material.hover_attackable
+var hover_mat:  StandardMaterial3D = TacticsConfig.mat_color.hover
+var reachable_mat: StandardMaterial3D = TacticsConfig.mat_color.reachable
+var hover_reachable_mat: StandardMaterial3D = TacticsConfig.mat_color.reachable_hover
+var attackable_mat: StandardMaterial3D = TacticsConfig.mat_color.attackable
+var hover_attackable_mat: StandardMaterial3D = TacticsConfig.mat_color.hover_attackable
 #endregion
 
 

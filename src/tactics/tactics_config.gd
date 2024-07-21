@@ -10,7 +10,7 @@ static var color := {
 	"rosso_corsa": "d10000BF",
 	"coral_red": "ff4242BF",
 }
-static var material := {
+static var mat_color := {
 	"hover": create_material(color.white),
 	"reachable": create_material(color.blue_cola),
 	"reachable_hover": create_material(color.blue_bolt),
@@ -27,10 +27,10 @@ static var pawn := {
 #endregion
 
 #region: --- Methods ---
-static func create_material(color, texture=null, shaded_mode=0):
+static func create_material(color_hex: String, texture=null, shaded_mode=0):
 	var material = StandardMaterial3D.new()
 	material.flags_transparent = true
-	material.albedo_color = Color(color)
+	material.albedo_color = Color(color_hex)
 	material.albedo_texture = texture
 	material.shading_mode = shaded_mode
 	return material

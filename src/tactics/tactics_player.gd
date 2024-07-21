@@ -20,7 +20,6 @@ var stage: int = 0 ## Controls the current stage in the pawn round process
 #region: --- Processing ---
 func _process(_delta: float) -> void:
 	Input.set_mouse_mode(is_joystick)
-	pass
 
 func _input(event: InputEvent) -> void:
 	is_joystick = event is InputEventJoypadButton or event is InputEventJoypadMotion
