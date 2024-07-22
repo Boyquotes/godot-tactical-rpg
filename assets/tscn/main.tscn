@@ -34,15 +34,6 @@ offset_right = 85.0
 offset_bottom = 20.0
 text = "Map 1"
 
-[node name="LoadMap1" type="Button" parent="Menu"]
-layout_mode = 0
-offset_left = 3.0
-offset_top = 36.0
-offset_right = 85.0
-offset_bottom = 53.0
-text = "Map 2"
-
 [node name="Main3D" type="Node3D" parent="."]
 
 [connection signal="pressed" from="Menu/LoadMap0" to="." method="_on_load_map_0_pressed"]
-[connection signal="pressed" from="Menu/LoadMap1" to="." method="_on_load_map_1_pressed"]

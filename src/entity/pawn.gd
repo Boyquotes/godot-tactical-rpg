@@ -7,12 +7,13 @@ extends Entity
 
 
 #region: --- Props ---
-var Actor = preload("res://src/entity/actor.gd")
+
+var Hero = preload("res://src/entity/hero.gd")
 var Mob = preload("res://src/entity/mob.gd")
-var parent = null # value1 if condition else: value2
 #endregion
 
 #region: --- Processing ---
+
 #endregion
 
 

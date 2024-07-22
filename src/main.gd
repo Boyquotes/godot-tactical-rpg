@@ -22,9 +22,6 @@ func _process(delta: float) -> void:
 #region: --- Signals ---
 func _on_load_map_0_pressed() -> void:
 	load_level("test")
-
-func _on_load_map_1_pressed() -> void:
-	load_level("mountain-base")
 #endregion
 
 
@@ -39,6 +36,5 @@ func unload_level():
 func load_level(level_name: String):
 	unload_level()
 	var level_path := "res://assets/maps/%s_level.tscn" % level_name
-	level_instance = load(level_path).instantiate()
-	main_3d.add_child(level_instance)
+	main_3d.add_child(load(level_path).instantiate())
 #endregion

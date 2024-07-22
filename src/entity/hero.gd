@@ -1,4 +1,4 @@
-class_name Mob
+class_name Hero
 extends Actor
 ## Maps the Mob Model. Edit & merge as needed.
 ##
