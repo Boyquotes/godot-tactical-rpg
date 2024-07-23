@@ -1,5 +1,5 @@
-class_name HeroClass
-extends Hero
+class_name Mob
+extends Actor
 ## Maps the Mob Model. Edit & merge as needed.
 ##
 ## Mob components:
@@ -8,10 +8,6 @@ extends Hero
 
 #region: --- Props ---
 enum CLASSES {
-		Knight, 
-		Archer, 
-		Chemist, 
-		Cleric, 
 		Skeleton, 
 		SkeletonCPT, 
 		SkeletonMage,

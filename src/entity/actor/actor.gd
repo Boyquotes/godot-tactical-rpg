@@ -1,8 +1,8 @@
-class_name Hero
-extends Actor
-## Maps the Mob Model. Edit & merge as needed.
+class_name Actor
+extends Entity
+## Maps the Actor Model. Edit & merge as needed.
 ##
-## Mob components:
+## Actor components:
 ## - 
 
 

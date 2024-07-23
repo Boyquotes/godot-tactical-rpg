@@ -8,7 +8,6 @@ extends CharacterBody3D
 
 
 #region: --- Props ---
-static var health: float = 100.0
 #endregion
 
 #region: --- Processing ---

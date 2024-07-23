@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://cd8du7336tyd2"]
+
+[ext_resource type="Script" path="res://src/entity/stats/stats.gd" id="1_o4aan"]
+
+[resource]
+script = ExtResource("1_o4aan")
+profession = 0
+level = 1
+ap = 3
+mp = 4
+max_health = 8
+armor = 3
+crit_rate = 5
+crit_dmg = 50
+range = 1
+def = 1
+stab = 0
+resi = 0
