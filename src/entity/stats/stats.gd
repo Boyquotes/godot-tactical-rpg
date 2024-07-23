@@ -1,23 +1,57 @@
 class_name Stats
-extends Resource
+extends Node
+## 
+
+signal health_changed(new)
+signal health_depleted()
+
+var modifiers = {}
+var level: int = 1
+var ap: int: get = get_ap, set = set_ap
+var mp: int: get = get_mp, set = set_mp
+var max_health: int: get = get_max_health, set = set_max_health
+var armor: int: get = get_armor, set = set_armor
+var crit_rate: int ## Critical Rate. Percentile chance to inflict crit dmg. Max: 65%
+var crit_dmg: int ## Extra critical Damage. Base: +30% DMG, Max: +100%.
+var range: int ## How far you can project your basic attack.
+var def: int ## Defense (damage resist). Max: 15
+var stab: int ## Stability (move resist). 
+var resi: int ## Resilience (AP/MP resist).
 
 
-@export var profession: PROFESSIONS
-enum PROFESSIONS {
-		Knight, 
-		Archer, 
-		Chemist, 
-		Cleric,
-	}
+func init(stats: StatsResource) -> void:
+	level = stats.level
+	ap = stats.ap
+	mp = stats.mp
+	max_health = stats.max_health
+	armor = stats.armor
+	crit_rate = stats.crit_rate
+	crit_dmg = stats.crit_dmg
+	range = stats.range
+	def = stats.def
+	stab = stats.stab
+	resi = stats.resi
 
-@export var level: int = 1
-@export var ap: int = 3 ## Action Points. Usual skill cost: 1-2-3. Finisher: 4. Endgame: 9 AP max.
-@export var mp: int = 3 ## Movement. Average: 3-5 (base). Endgame: 9 max.
-@export var max_health: int = 5
-@export var armor: int = 0 ## Replenishable coating of extra health. Armor erodes over damage.
-@export var crit_rate: int = 5 ## Critical Rate. Percentile chance to inflict crit dmg. Max: 65%
-@export var crit_dmg: int = 50 ## Extra critical Damage. Base: +50% DMG, Max: +200%.
-@export var range: int = 1 ## How far you can project your basic attack.
-@export var def: int = 0 ## Defense (damage resist). Max: 15
-@export var stab: int = 0 ## Stability (move resist). 
-@export var resi: int = 0 ## Resilience (AP/MP resist).
+
+func take_damage() -> void:
+	pass
+func heal() -> void:
+	pass
+
+# Getters & Setters
+func get_ap() -> int:
+	return ap
+func set_ap(new) -> void:
+	ap = new
+func get_mp() -> int:
+	return mp
+func set_mp(new) -> void:
+	mp = new
+func get_max_health() -> int:
+	return max_health 
+func set_max_health(new) -> void:
+	max_health = new
+func get_armor() -> int:
+	return armor 
+func set_armor(new) -> void:
+	armor = new
