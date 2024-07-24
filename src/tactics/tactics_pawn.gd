@@ -6,18 +6,17 @@ extends CharacterBody3D
 
 
 #region: --- Props ---
-@export var pawn_class: TacticsPawnService.PAWN_CLASSES
 @export var pawn_strategy: TacticsPawnService.PAWN_STRATEGIES
 @export var pawn_name: String = "Trooper" # migrate to character class
 #@export var starting_tile: TacticsTile
 # ----- public -----
 # local
+var stats: Stats
+var pawn_profession: String
 var can_move := true ## Can the pawn move?
 var can_attack := true ## Can the pawn attack?
-# TRANSITION TO: mp
-var move_radius ## The radius the pawn can move
-# TRANSITION TO: mp/2
-var jump_height ## The block height the pawn can jump
+var move_radius ## The radius the pawn can move; stats.mp
+var jump_height ## The block height the pawn can jump; stats.jump
 # TRANSITION TO: range
 var attack_radius ## The radius the pawn can attack
 # attack_power
@@ -46,6 +45,8 @@ var _wait_delay: float = 0.0
 
 #region: --- Processing ---
 func _ready() -> void:
+	stats =  $Profession/Stats
+	pawn_profession = $Profession/Stats.profession
 	_load_stats()
 	_load_animator_sprite()
 	display_pawn_stats(false)
@@ -97,8 +98,8 @@ func _load_animator_sprite() -> void:
 	_animator = $Character/AnimationTree.get("parameters/playback")
 	_animator.start("IDLE")
 	$Character/AnimationTree.active = true
-	$Character.texture = TacticsPawnService.get_pawn_sprite(pawn_class)
-	$CharacterStats/NameLabel.text = pawn_name+", the "+String(TacticsPawnService.PAWN_CLASSES.keys()[pawn_class])
+	$Character.texture = load(stats.sprite)
+	$CharacterStats/NameLabel.text = pawn_profession
 
 
 ## Defines the current pawn animation. Called every process iteration. Depends on _load_animator_sprite() method
@@ -185,12 +186,12 @@ func can_act() -> bool:
 
 ## Returns the pawn stats
 func _load_stats() -> void:
-	move_radius = TacticsPawnService.get_pawn_move_radius(pawn_class)
-	jump_height = TacticsPawnService.get_pawn_jump_height(pawn_class)
-	attack_radius = TacticsPawnService.get_pawn_attack_radius(pawn_class)
-	attack_power = TacticsPawnService.get_pawn_attack_power(pawn_class)
-	_max_health = TacticsPawnService.get_pawn_health(pawn_class)
-	curr_health = _max_health
+	move_radius = stats.mp
+	jump_height = stats.jump
+	attack_radius = stats.range
+	attack_power = stats.attack_power
+	_max_health = stats.max_health
+	curr_health = stats.curr_health
 
 
 ## Makes the pawn half-transparent when it's done with its round

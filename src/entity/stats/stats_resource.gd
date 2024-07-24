@@ -11,6 +11,7 @@ extends Resource
 @export_category("Base")
 @export var ap: int = 3 ## Action Points. Usual skill cost: 1-2-3. Finisher: 4. Endgame: 9 AP max.
 @export var mp: int = 3 ## Movement. Average: 3-5 (base). Endgame: 9 max.
+var jump: int = floor(mp / 2)
 @export var max_health: int = 5
 @export var armor: int = 0 ## Replenishable coating of extra health. Armor erodes over damage.
 
