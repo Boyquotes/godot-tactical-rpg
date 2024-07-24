@@ -22,10 +22,10 @@ var attack_radius ## The radius the pawn can attack
 # attack_power
 var attack_power ## The amount of damage a basic attack does
 # SEND
+var max_health: int
 var curr_health: int = 100 ## Pawn's current health
 var pathfinding_tilestack := [] ## An array of tile coordinates. See [TacticsTile]
 # ----- private -----
-var _max_health: int = 100
 # configurable stats
 var _walk_speed: int = TacticsConfig.pawn.base_walk_speed # 16
 var _animation_frames: int = TacticsConfig.pawn.animation_frames # 1
@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 	_move_along_path(delta)
 	_start_animator()
 	_tint_when_unable_to_act()
-	$CharacterStats/HealthLabel.text = str(curr_health)+"/"+str(_max_health)	
+	$CharacterStats/HealthLabel.text = str(curr_health)+"/"+str(max_health)	
 #endregion
 
 
@@ -190,7 +190,7 @@ func _load_stats() -> void:
 	jump_height = stats.jump
 	attack_radius = stats.range
 	attack_power = stats.attack_power
-	_max_health = stats.max_health
+	max_health = stats.max_health
 	curr_health = stats.curr_health
 
 

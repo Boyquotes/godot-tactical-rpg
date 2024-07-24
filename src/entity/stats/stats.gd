@@ -34,6 +34,7 @@ func init(stats: StatsResource) -> void:
 	level = stats.level
 	ap = stats.ap
 	mp = stats.mp
+	set_jump()
 	max_health = stats.max_health
 	curr_health = max_health
 	armor = stats.armor
@@ -55,3 +56,6 @@ func heal() -> void:
 # Getters & Setters
 func set_jump() -> void:
 	jump = floor(mp / 2)
+## Provided a health operation as a parameter (e.g. "-2", "1"), adds the value to current health
+func update_curr_health(new: int) -> void:
+	curr_health = clamp(curr_health + new, 0, max_health)
