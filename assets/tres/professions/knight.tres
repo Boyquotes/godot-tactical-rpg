@@ -1,18 +1,21 @@
-[gd_resource type="Resource" script_class="StatsResource" load_steps=2 format=3 uid="uid://coqdkmjbivhih"]
+[gd_resource type="Resource" script_class="StatsResource" load_steps=2 format=3 uid="uid://14x26y1535he"]
 
 [ext_resource type="Script" path="res://src/entity/stats/stats_resource.gd" id="1_c5fdt"]
 
 [resource]
 script = ExtResource("1_c5fdt")
-profession = 0
+profession = "Knight"
 level = 1
 ap = 3
 mp = 4
 max_health = 8
+curr_health = 8
 armor = 1
+sprite = "res://assets/textures/actor/character/chr_pawn_knight.png"
+range = 1
+attack_power = 2
 crit_rate = 5
 crit_dmg = 30
-range = 1
-def = 1
-stab = 1
+def = 0
+stab = 0
 resi = 0

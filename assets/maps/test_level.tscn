@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://conliaxesyag8"]
+[gd_scene load_steps=9 format=3 uid="uid://conliaxesyag8"]
 
 [ext_resource type="PackedScene" uid="uid://dwbmgds45ep4o" path="res://assets/maps/arena/test_arena.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://1ujfoei6r514" path="res://assets/tscn/tactics/tactics_camera.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bky8ul2628kxw" path="res://assets/tscn/tactics/tactics_controls.tscn" id="4"]
 [ext_resource type="Script" path="res://src/tactics/tactics_player.gd" id="5"]
 [ext_resource type="Script" path="res://src/tactics/tactics_opponent.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://8x2rssxosm7i" path="res://assets/tscn/entity/profession.tscn" id="7_8asdj"]
 [ext_resource type="PackedScene" uid="uid://6eofg7n4asn5" path="res://assets/tscn/tactics/tactics_pawn.tscn" id="8"]
 
 [node name="Level" type="Node3D"]
@@ -24,20 +25,28 @@ script = ExtResource("5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -3.5)
 pawn_name = "Clark"
 
+[node name="Profession" parent="Player/Pawn" instance=ExtResource("7_8asdj")]
+
 [node name="Pawn2" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, -3.5)
 pawn_class = 1
 pawn_name = "Diana"
+
+[node name="Profession" parent="Player/Pawn2" instance=ExtResource("7_8asdj")]
 
 [node name="Pawn3" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.5, -4.5)
 pawn_class = 2
 pawn_name = "Bruno"
 
+[node name="Profession" parent="Player/Pawn3" instance=ExtResource("7_8asdj")]
+
 [node name="Pawn4" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -4.5)
 pawn_class = 3
 pawn_name = "Shiera"
+
+[node name="Profession" parent="Player/Pawn4" instance=ExtResource("7_8asdj")]
 
 [node name="Opponent" type="Node3D" parent="."]
 script = ExtResource("6")

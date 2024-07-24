@@ -11,12 +11,18 @@ extends CharacterBody3D
 @export var pawn_name: String = "Trooper" # migrate to character class
 #@export var starting_tile: TacticsTile
 # ----- public -----
+# local
 var can_move := true ## Can the pawn move?
 var can_attack := true ## Can the pawn attack?
+# TRANSITION TO: mp
 var move_radius ## The radius the pawn can move
+# TRANSITION TO: mp/2
 var jump_height ## The block height the pawn can jump
+# TRANSITION TO: range
 var attack_radius ## The radius the pawn can attack
+# attack_power
 var attack_power ## The amount of damage a basic attack does
+# SEND
 var curr_health: int = 100 ## Pawn's current health
 var pathfinding_tilestack := [] ## An array of tile coordinates. See [TacticsTile]
 # ----- private -----

@@ -1,12 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://8x2rssxosm7i"]
+[gd_scene load_steps=5 format=3 uid="uid://8x2rssxosm7i"]
 
 [ext_resource type="Script" path="res://src/entity/stats/profession.gd" id="1_6aq7s"]
-[ext_resource type="Resource" uid="uid://coqdkmjbivhih" path="res://assets/tres/professions/knight.tres" id="2_3gwud"]
+[ext_resource type="Script" path="res://src/entity/stats/stats_resource.gd" id="2_6ex63"]
 [ext_resource type="Script" path="res://src/entity/stats/stats.gd" id="2_18or5"]
+
+[sub_resource type="Resource" id="Resource_usc5a"]
+script = ExtResource("2_6ex63")
+profession = ""
+level = 1
+ap = 3
+mp = 4
+max_health = 8
+armor = 1
+sprite = "res://assets/textures/actor/"
+range = 1
+attack_power = 1
+crit_rate = 5
+crit_dmg = 30
+def = 1
+stab = 1
+resi = 0
 
 [node name="Profession" type="Node"]
 script = ExtResource("1_6aq7s")
-starting_stats = ExtResource("2_3gwud")
+starting_stats = SubResource("Resource_usc5a")
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("2_18or5")

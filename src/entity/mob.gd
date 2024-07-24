@@ -8,9 +8,6 @@ extends Actor
 
 #region: --- Props ---
 enum CLASSES {
-		Skeleton, 
-		SkeletonCPT, 
-		SkeletonMage,
 	}
 #endregion
 

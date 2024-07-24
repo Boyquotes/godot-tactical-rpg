@@ -7,13 +7,19 @@ signal health_depleted()
 
 var modifiers = {}
 var level: int = 1
+# Base Stats
 var ap: int: get = get_ap, set = set_ap
 var mp: int: get = get_mp, set = set_mp
 var max_health: int: get = get_max_health, set = set_max_health
+var curr_health = max_health
 var armor: int: get = get_armor, set = set_armor
+var sprite: String
+# Offensive
+var attack_power: int
 var crit_rate: int ## Critical Rate. Percentile chance to inflict crit dmg. Max: 65%
 var crit_dmg: int ## Extra critical Damage. Base: +30% DMG, Max: +100%.
 var range: int ## How far you can project your basic attack.
+# Defensive
 var def: int ## Defense (damage resist). Max: 15
 var stab: int ## Stability (move resist). 
 var resi: int ## Resilience (AP/MP resist).
