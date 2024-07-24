@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatsResource" load_steps=2 format=3 uid="uid://exlkcu7d77lb"]
+
+[ext_resource type="Script" path="res://src/entity/stats/stats_resource.gd" id="1_lwyqq"]
+
+[resource]
+script = ExtResource("1_lwyqq")
+profession = "Skeleton Captain"
+level = 1
+sprite = "res://assets/textures/actor/mob/chr_pawn_skeleton_cpt.png"
+ap = 3
+mp = 3
+max_health = 2
+armor = 0
+range = 1
+attack_power = 2
+crit_rate = 5
+crit_dmg = 30
+def = 1
+stab = 0
+resi = 1

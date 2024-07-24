@@ -7,12 +7,13 @@
 [sub_resource type="Resource" id="Resource_usc5a"]
 script = ExtResource("2_6ex63")
 profession = ""
+strategy = 0
 level = 1
+sprite = "res://assets/textures/actor/"
 ap = 3
 mp = 4
 max_health = 8
 armor = 1
-sprite = "res://assets/textures/actor/"
 range = 1
 attack_power = 1
 crit_rate = 5

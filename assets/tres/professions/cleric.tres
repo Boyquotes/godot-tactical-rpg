@@ -4,17 +4,18 @@
 
 [resource]
 script = ExtResource("1_k2p1h")
-profession = ""
+profession = "Cleric"
+strategy = 4
 level = 1
+sprite = "res://assets/textures/actor/"
 ap = 3
 mp = 3
-max_health = 5
+max_health = 6
 armor = 0
-sprite = "res://assets/textures/actor/"
-range = 1
+range = 5
 attack_power = 1
 crit_rate = 5
 crit_dmg = 30
 def = 0
 stab = 0
-resi = 0
+resi = 1

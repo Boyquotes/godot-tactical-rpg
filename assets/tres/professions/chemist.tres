@@ -4,14 +4,15 @@
 
 [resource]
 script = ExtResource("1_gb38y")
-profession = ""
+profession = "Chemist"
+strategy = 1
 level = 1
-ap = 3
+sprite = "res://assets/textures/actor/character/chr_pawn_chemist.png"
+ap = 4
 mp = 3
-max_health = 5
+max_health = 3
 armor = 0
-sprite = "res://assets/textures/actor/"
-range = 1
+range = 5
 attack_power = 1
 crit_rate = 5
 crit_dmg = 30

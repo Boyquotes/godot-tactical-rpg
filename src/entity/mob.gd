@@ -7,8 +7,6 @@ extends Actor
 
 
 #region: --- Props ---
-enum CLASSES {
-	}
 #endregion
 
 #region: --- Processing ---

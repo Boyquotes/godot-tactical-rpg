@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatsResource" load_steps=2 format=3 uid="uid://c065vh6vqrtcc"]
+
+[ext_resource type="Script" path="res://src/entity/stats/stats_resource.gd" id="1_nbj3d"]
+
+[resource]
+script = ExtResource("1_nbj3d")
+profession = "Skeleton"
+strategy = 1
+level = 1
+sprite = "res://assets/textures/actor/mob/chr_pawn_skeleton.png"
+ap = 3
+mp = 3
+max_health = 1
+armor = 0
+range = 1
+attack_power = 1
+crit_rate = 5
+crit_dmg = 30
+def = 0
+stab = 0
+resi = 0
