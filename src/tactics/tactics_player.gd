@@ -110,14 +110,14 @@ func _player_wants_to_cancel() -> void:
 
 ## Set stage as player clicks on Wait
 func _player_wants_to_wait() -> void: 
-	curr_pawn.do_wait()
+	curr_pawn.button_wait()
 	stage = 0
 
 
 ## Set stage as player clicks on Next Turn
 func _player_wants_to_skip_turn() -> void: 
 	for pawn in get_children():
-		pawn.do_wait()
+		pawn.button_wait()
 	stage = 0
 
 
@@ -181,8 +181,8 @@ func _show_available_movements() -> void:
 		return
 
 	tactics_camera.target = curr_pawn
-	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.jump_height, get_children())
-	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.move_radius)
+	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.jump, get_children())
+	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.stats.mp)
 	stage = 3
 
 
@@ -193,8 +193,8 @@ func _display_attackable_targets() -> void:
 		return
 
 	tactics_camera.target = curr_pawn
-	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
-	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
+	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
+	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
 	stage = 6
 
 
@@ -236,7 +236,7 @@ func _attack_pawn(delta) -> void:
 	if not attackable_pawn: 
 		curr_pawn.can_attack = false
 	else:
-		if not curr_pawn.do_attack(attackable_pawn, delta): 
+		if not curr_pawn.button_attack(attackable_pawn, delta): 
 			return
 
 		attackable_pawn.display_pawn_stats(false)

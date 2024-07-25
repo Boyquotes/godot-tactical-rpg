@@ -12,7 +12,7 @@ var profession: String
 var level: int = 1
 # Base Stats
 var ap: int
-var mp: int
+var mp: int ## The radius the pawn can move
 var jump: int
 var max_health: int
 var curr_health: int

@@ -40,8 +40,8 @@ func get_nearest_target_adjacent_tile(
 	var _nearest_target = null
 	
 	for _p in target_pawns:
-		if _p.curr_health <= 0: continue
-		for _n in _p.get_tile().get_neighbors(pawn.jump_height):
+		if _p.stats.curr_health <= 0: continue
+		for _n in _p.get_tile().get_neighbors(pawn.stats.jump):
 			if not _nearest_target or _n.pf_distance < _nearest_target.pf_distance:
 				if _n.pf_distance > 0 and not _n.is_taken():
 					_nearest_target = _n
@@ -60,8 +60,8 @@ func get_weakest_attackable_pawn(pawn_arr: Array) -> TacticsPawn:
 	var _weakest = null
 	
 	for _p in pawn_arr:
-		if not _weakest or _p.curr_health < _weakest.curr_health:
-			if _p.curr_health > 0 and _p.get_tile().attackable:
+		if not _weakest or _p.stats.curr_health < _weakest.stats.curr_health:
+			if _p.stats.curr_health > 0 and _p.get_tile().attackable:
 				_weakest = _p
 	
 	return _weakest

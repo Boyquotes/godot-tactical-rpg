@@ -18,10 +18,10 @@ static var mat_color := {
 	"hover_attackable": create_material(color.coral_red),
 }
 static var pawn := {
-	"base_walk_speed": 16,
+	"base_walk_speed": 16, ## Base speed for pawn movement on the board
 	"animation_frames": 1,
-	"min_height_to_jump": 1,
-	"gravity_strength": 7,
+	"min_height_to_jump": 1, ## The tile height from which we use JUMP pawn animation
+	"gravity_strength": 7, ## Force of gravity used in jump & fall physics
 	"min_time_for_attack": 1,
 }
 #endregion

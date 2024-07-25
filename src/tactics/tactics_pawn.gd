@@ -6,27 +6,14 @@ extends CharacterBody3D
 
 
 #region: --- Props ---
-@export var pawn_strategy: TacticsPawnService.PAWN_STRATEGIES
-@export var pawn_name: String = "Trooper" # migrate to character class
-#@export var starting_tile: TacticsTile
 # ----- public -----
-# local
+@export var override_name := "" # TODO
 var stats: Stats
 var pawn_profession: String
 var can_move := true ## Can the pawn move?
 var can_attack := true ## Can the pawn attack?
-var move_radius ## The radius the pawn can move; stats.mp
-var jump_height ## The block height the pawn can jump; stats.jump
-# TRANSITION TO: range
-var attack_radius ## The radius the pawn can attack
-# attack_power
-var attack_power ## The amount of damage a basic attack does
-# SEND
-var max_health: int
-var curr_health: int = 100 ## Pawn's current health
 var pathfinding_tilestack := [] ## An array of tile coordinates. See [TacticsTile]
 # ----- private -----
-# configurable stats
 var _walk_speed: int = TacticsConfig.pawn.base_walk_speed # 16
 var _animation_frames: int = TacticsConfig.pawn.animation_frames # 1
 var _min_height_to_jump: int = TacticsConfig.pawn.min_height_to_jump # 1
@@ -47,17 +34,16 @@ var _wait_delay: float = 0.0
 func _ready() -> void:
 	stats =  $Profession/Stats
 	pawn_profession = $Profession/Stats.profession
-	_load_stats()
 	_load_animator_sprite()
 	display_pawn_stats(false)
 
 
 func _process(delta: float) -> void:
-	_rotate_pawn_sprite()
+	_rotate_sprite()
 	_move_along_path(delta)
 	_start_animator()
 	_tint_when_unable_to_act()
-	$CharacterStats/HealthLabel.text = str(curr_health)+"/"+str(max_health)	
+	$CharacterStats/HealthLabel.text = str(stats.curr_health)+"/"+str(stats.max_health)	
 #endregion
 
 
@@ -68,7 +54,7 @@ func get_tile() -> Object:
 
 
 ## Rotates the pawn's 2D sprite to face the camera
-func _rotate_pawn_sprite() -> void:
+func _rotate_sprite() -> void:
 	var _camera_forward = -get_viewport().get_camera_3d().global_basis.z
 	var _scalar = global_basis.z.dot(_camera_forward)
 	$Character.flip_h = global_basis.x.dot(_camera_forward) > 0 # <90deg
@@ -112,11 +98,11 @@ func _start_animator() -> void:
 func _move_along_path(delta: float) -> void:
 	if not pathfinding_tilestack.is_empty(): 
 		if not can_move: return
+		
 		if _move_direction == Vector3(0,0,0): 
 			_move_direction = pathfinding_tilestack.front() - global_transform.origin
 
 		if _move_direction.length() > 0.5:
-
 			_look_at_direction(_move_direction)
 			var _p_velocity = _move_direction.normalized()
 			var _curr_speed = _walk_speed
@@ -149,22 +135,22 @@ func _move_along_path(delta: float) -> void:
 			_adjust_to_center()
 
 ## Used when the user input is "Wait" -- effectively ends current pawn's turn
-func do_wait() -> void:
+func button_wait() -> void:
 	can_move = false
 	can_attack = false
 
 
 ## Debug feature: ends all pawns turn
-func debug_wait() -> void:
+func button_wait_all() -> void:
 	can_move = false
 	can_attack = false
 
 
 ## Faces target & applies damage. Returns false if attack hasn't yet finished
-func do_attack(target_pawn: TacticsPawn, delta: float) -> bool:
+func button_attack(target_pawn: TacticsPawn, delta: float) -> bool:
 	_look_at_direction(target_pawn.global_transform.origin-global_transform.origin)
 	if can_attack and _wait_delay > _min_time_for_attack / 4.0: 
-		target_pawn.curr_health = clamp(target_pawn.curr_health-attack_power, 0, INF)
+		target_pawn.stats.curr_health = clamp(target_pawn.stats.curr_health-stats.attack_power, 0, INF)
 		can_attack = false
 	if _wait_delay < _min_time_for_attack:
 		_wait_delay += delta
@@ -181,17 +167,7 @@ func reset_turn() -> void:
 
 ## Returns whether the pawn can act this round
 func can_act() -> bool:
-	return (can_move or can_attack) and curr_health > 0
-
-
-## Returns the pawn stats
-func _load_stats() -> void:
-	move_radius = stats.mp
-	jump_height = stats.jump
-	attack_radius = stats.range
-	attack_power = stats.attack_power
-	max_health = stats.max_health
-	curr_health = stats.curr_health
+	return (can_move or can_attack) and stats.curr_health > 0
 
 
 ## Makes the pawn half-transparent when it's done with its round

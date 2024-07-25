@@ -30,28 +30,24 @@ script = ExtResource("5")
 
 [node name="Pawn" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -3.5)
-pawn_name = "Clark"
 
 [node name="Profession" parent="Player/Pawn" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("8_0knb5")
 
 [node name="Pawn2" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, -3.5)
-pawn_name = "Diana"
 
 [node name="Profession" parent="Player/Pawn2" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("9_ueb61")
 
 [node name="Pawn3" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.5, -4.5)
-pawn_name = "Bruno"
 
 [node name="Profession" parent="Player/Pawn3" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("10_qqf2t")
 
 [node name="Pawn4" parent="Player" instance=ExtResource("8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, -4.5)
-pawn_name = "Shiera"
 
 [node name="Profession" parent="Player/Pawn4" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("11_e4a8p")
@@ -61,28 +57,24 @@ script = ExtResource("6")
 
 [node name="Pawn5" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.5, 5.5)
-pawn_name = "Kori"
 
 [node name="Profession" parent="Opponent/Pawn5" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("13_0sc3d")
 
 [node name="Pawn6" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, 0.5, 4.5)
-pawn_name = "Garfield"
 
 [node name="Profession" parent="Opponent/Pawn6" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("13_0sc3d")
 
 [node name="Pawn7" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.5, 4.5)
-pawn_name = "Ricardo"
 
 [node name="Profession" parent="Opponent/Pawn7" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("14_0cltm")
 
 [node name="Pawn8" parent="Opponent" instance=ExtResource("8")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.5, 3.5)
-pawn_name = "Victor"
 
 [node name="Profession" parent="Opponent/Pawn8" instance=ExtResource("7_8asdj")]
 starting_stats = ExtResource("15_g6f4g")

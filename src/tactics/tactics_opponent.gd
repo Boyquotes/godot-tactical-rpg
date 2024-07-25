@@ -75,8 +75,8 @@ func _choose_pawn() -> void:
 ## Move towards the nearest enemy
 func _chase_nearest_enemy() -> void:
 	arena.reset_all_tile_markers()
-	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.jump_height, get_children())
-	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.move_radius)
+	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.jump, get_children())
+	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.stats.mp)
 	
 	var to = arena.get_nearest_target_adjacent_tile(curr_pawn, targets.get_children())
 	curr_pawn.pathfinding_tilestack = arena.get_pathfinding_tilestack(to)
@@ -93,8 +93,8 @@ func _is_pawn_done_moving() -> void:
 ## Choose the target pawn to attack
 func _choose_pawn_to_attack() -> void:
 	arena.reset_all_tile_markers()
-	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
-	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.attack_radius)
+	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
+	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
 	
 	attackable_pawn = arena.get_weakest_attackable_pawn(targets.get_children())
 	if attackable_pawn:
@@ -108,7 +108,7 @@ func _attack_pawn(delta: float) -> void:
 	if not attackable_pawn:
 		curr_pawn.can_attack = false
 	else:
-		if not curr_pawn.do_attack(attackable_pawn, delta):
+		if not curr_pawn.button_attack(attackable_pawn, delta):
 			return
 		attackable_pawn.display_pawn_stats(false)
 		tactics_camera.target = curr_pawn
