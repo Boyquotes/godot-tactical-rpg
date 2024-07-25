@@ -98,7 +98,7 @@ func _choose_pawn_to_attack() -> void:
 	
 	attackable_pawn = arena.get_weakest_attackable_pawn(targets.get_children())
 	if attackable_pawn:
-		attackable_pawn.display_pawn_stats(true)
+		attackable_pawn.service.display_pawn_stats(true)
 		tactics_camera.target = attackable_pawn
 	stage = 4 
 
@@ -110,7 +110,7 @@ func _attack_pawn(delta: float) -> void:
 	else:
 		if not curr_pawn.button_attack(attackable_pawn, delta):
 			return
-		attackable_pawn.display_pawn_stats(false)
+		attackable_pawn.service.display_pawn_stats(false)
 		tactics_camera.target = curr_pawn
 	attackable_pawn = null
 	stage = 0

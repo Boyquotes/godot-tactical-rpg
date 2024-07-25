@@ -156,12 +156,12 @@ func _select_hovered_tile() -> TacticsTile:
 func _select_pawn() -> void:
 	arena.reset_all_tile_markers()
 	if curr_pawn: 
-		curr_pawn.display_pawn_stats(false)
+		curr_pawn.service.display_pawn_stats(false)
 	curr_pawn = _select_hovered_pawn()
 	if not curr_pawn: 
 		return
 
-	curr_pawn.display_pawn_stats(true)
+	curr_pawn.service.display_pawn_stats(true)
 	if Input.is_action_just_pressed("ui_accept") and curr_pawn.can_act() and curr_pawn in get_children():
 		tactics_camera.target = curr_pawn
 		stage = 1 
@@ -169,7 +169,7 @@ func _select_pawn() -> void:
 
 ## Controller for act() stage 1
 func _show_available_pawn_actions() -> void:
-	curr_pawn.display_pawn_stats(true)
+	curr_pawn.service.display_pawn_stats(true)
 	arena.reset_all_tile_markers()
 	arena.mark_hover_tile(curr_pawn.get_tile())
 
@@ -210,14 +210,14 @@ func _select_new_location() -> void:
 
 ## Controller for act() stage 7
 func _select_pawn_to_attack() -> void:
-	curr_pawn.display_pawn_stats(true)
+	curr_pawn.service.display_pawn_stats(true)
 	if attackable_pawn: 
-		attackable_pawn.display_pawn_stats(false)
+		attackable_pawn.service.display_pawn_stats(false)
 
 	var tile = _select_hovered_tile()
 	attackable_pawn = tile.get_tile_occupier() if tile else null
 	if attackable_pawn: 
-		attackable_pawn.display_pawn_stats(true)
+		attackable_pawn.service.display_pawn_stats(true)
 
 	if Input.is_action_just_pressed("ui_accept") and tile and tile.attackable:
 		tactics_camera.target = attackable_pawn
@@ -226,7 +226,7 @@ func _select_pawn_to_attack() -> void:
 
 ## Controller for act() stage 5
 func _move_pawn() -> void:
-	curr_pawn.display_pawn_stats(false)
+	curr_pawn.service.display_pawn_stats(false)
 	if curr_pawn.pathfinding_tilestack.is_empty(): 
 		stage = 0 if not curr_pawn.can_act() else 1
 
@@ -239,7 +239,7 @@ func _attack_pawn(delta) -> void:
 		if not curr_pawn.button_attack(attackable_pawn, delta): 
 			return
 
-		attackable_pawn.display_pawn_stats(false)
+		attackable_pawn.service.display_pawn_stats(false)
 		tactics_camera.target = curr_pawn
 
 	attackable_pawn = null

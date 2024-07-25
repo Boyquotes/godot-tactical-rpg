@@ -7,26 +7,26 @@ extends CharacterBody3D
 
 #region: --- Props ---
 # ----- public -----
+var service: TacticsPawnService
+# stats
 @export var override_name := "" # TODO
 var stats: Stats
 var pawn_profession: String
 var can_move := true ## Can the pawn move?
 var can_attack := true ## Can the pawn attack?
+# pathfinding
 var pathfinding_tilestack := [] ## An array of tile coordinates. See [TacticsTile]
-# ----- private -----
+var movement_obj = {
+	"move_direction": Vector3(0,0,0),
+	"is_jumping": false,
+}
+var _gravity := Vector3.ZERO
+var _wait_delay: float = 0.0
+# movement & physics
 var _walk_speed: int = TacticsConfig.pawn.base_walk_speed # 16
-var _animation_frames: int = TacticsConfig.pawn.animation_frames # 1
 var _min_height_to_jump: int = TacticsConfig.pawn.min_height_to_jump # 1
 var _gravity_strength: int = TacticsConfig.pawn.gravity_strength # 7
 var _min_time_for_attack: int = TacticsConfig.pawn.min_time_for_attack # 1
-# animation
-var _curr_frame: int = 0
-var _animator = null
-# pathfinding
-var _move_direction := Vector3(0,0,0)
-var _is_jumping := false
-var _gravity := Vector3.ZERO
-var _wait_delay: float = 0.0
 #endregion
 
 
@@ -34,16 +34,17 @@ var _wait_delay: float = 0.0
 func _ready() -> void:
 	stats =  $Profession/Stats
 	pawn_profession = $Profession/Stats.profession
-	_load_animator_sprite()
-	display_pawn_stats(false)
+	service = $Character
+	service.load_animator_sprite(stats, pawn_profession)
+	service.display_pawn_stats(false)
 
 
 func _process(delta: float) -> void:
-	_rotate_sprite()
+	service.rotate_sprite(global_basis)
 	_move_along_path(delta)
-	_start_animator()
-	_tint_when_unable_to_act()
-	$CharacterStats/HealthLabel.text = str(stats.curr_health)+"/"+str(stats.max_health)	
+	service.start_animator(movement_obj)
+	service.tint_when_unable_to_act(can_act())
+	service.update_character_health(stats.curr_health, stats.max_health)
 #endregion
 
 
@@ -53,86 +54,20 @@ func get_tile() -> Object:
 	return $Tile.get_collider()
 
 
-## Rotates the pawn's 2D sprite to face the camera
-func _rotate_sprite() -> void:
-	var _camera_forward = -get_viewport().get_camera_3d().global_basis.z
-	var _scalar = global_basis.z.dot(_camera_forward)
-	$Character.flip_h = global_basis.x.dot(_camera_forward) > 0 # <90deg
-	if _scalar < -0.306: $Character.frame = _curr_frame
-	elif _scalar > 0.306: $Character.frame = _curr_frame + 1 * _animation_frames
+## Returns whether the pawn can act this round
+func can_act() -> bool:
+	return (can_move or can_attack) and stats.curr_health > 0
 
 
-## Sets the Pawn's rotation
-func _look_at_direction(dir: Vector3) -> void:
-	var _fixed_dir = dir * (
-			Vector3(1,0,0) if abs(dir.x) > abs(dir.z) else Vector3(0,0,1) )
-	var _angle = Vector3.FORWARD.signed_angle_to(
-			_fixed_dir.normalized(), Vector3.UP) + PI
-	set_rotation(Vector3.UP * _angle)
+## Configures pawn, making sure it is centered on its tile
+func configure() -> bool:
+	return service.adjust_to_center(self, global_transform)
 
 
-## Aligns the pawn to the center of its tile (when drag & dropped in-editor). Returns false if no Tile is detected.
-func _adjust_to_center() -> bool:
-	if get_tile():
-		global_transform.origin = get_tile().global_transform.origin
-		return true
-	return false
-
-
-## Loads the animator
-func _load_animator_sprite() -> void:
-	_animator = $Character/AnimationTree.get("parameters/playback")
-	_animator.start("IDLE")
-	$Character/AnimationTree.active = true
-	$Character.texture = load(stats.sprite)
-	$CharacterStats/NameLabel.text = pawn_profession
-
-
-## Defines the current pawn animation. Called every process iteration. Depends on _load_animator_sprite() method
-func _start_animator() -> void:
-	if _move_direction == Vector3(0,0,0): _animator.travel("IDLE")
-	elif _is_jumping: _animator.travel("JUMP")
-
-
-## Triggers movement and animates pawn along the tilestack path (if pawn can move)
-func _move_along_path(delta: float) -> void:
-	if not pathfinding_tilestack.is_empty(): 
-		if not can_move: return
-		
-		if _move_direction == Vector3(0,0,0): 
-			_move_direction = pathfinding_tilestack.front() - global_transform.origin
-
-		if _move_direction.length() > 0.5:
-			_look_at_direction(_move_direction)
-			var _p_velocity = _move_direction.normalized()
-			var _curr_speed = _walk_speed
-
-			# apply jump
-			if _move_direction.y > _min_height_to_jump: 
-				_curr_speed = clamp(abs(_move_direction.y)*2.3, 3, INF)
-				_is_jumping = true
-
-			# fall or move to the edge before falling
-			elif _move_direction.y < -_min_height_to_jump:
-				if TacticsPawnService.vector_distance_without_y(pathfinding_tilestack.front(), global_transform.origin) <= 0.2:
-					_gravity += Vector3.DOWN * delta * _gravity_strength
-					_p_velocity = (pathfinding_tilestack.front()-global_transform.origin).normalized()+_gravity
-				else:
-					_p_velocity = TacticsPawnService.vector_remove_y(_move_direction).normalized()
-
-			set_velocity(_p_velocity*_curr_speed)
-			set_up_direction(Vector3.UP)
-			move_and_slide()
-			var _v = _p_velocity
-			if global_transform.origin.distance_to(pathfinding_tilestack.front()) >= 0.15: return
-
-		pathfinding_tilestack.pop_front()
-		_move_direction = Vector3(0,0,0)
-		_is_jumping = false
-		_gravity = Vector3.ZERO
-		can_move = pathfinding_tilestack.size() > 0
-		if not can_move:
-			_adjust_to_center()
+## Resets the pawn's turn state
+func reset_turn() -> void:
+	can_move = true
+	can_attack = true
 
 ## Used when the user input is "Wait" -- effectively ends current pawn's turn
 func button_wait() -> void:
@@ -148,7 +83,7 @@ func button_wait_all() -> void:
 
 ## Faces target & applies damage. Returns false if attack hasn't yet finished
 func button_attack(target_pawn: TacticsPawn, delta: float) -> bool:
-	_look_at_direction(target_pawn.global_transform.origin-global_transform.origin)
+	service.look_at_direction(self, target_pawn.global_transform.origin-global_transform.origin)
 	if can_attack and _wait_delay > _min_time_for_attack / 4.0: 
 		target_pawn.stats.curr_health = clamp(target_pawn.stats.curr_health-stats.attack_power, 0, INF)
 		can_attack = false
@@ -159,28 +94,43 @@ func button_attack(target_pawn: TacticsPawn, delta: float) -> bool:
 	return true
 
 
-## Resets the pawn's turn state
-func reset_turn() -> void:
-	can_move = true
-	can_attack = true	
+## Triggers movement and animates pawn along the tilestack path (if pawn can move)
+func _move_along_path(delta: float) -> void:
+	if not pathfinding_tilestack.is_empty(): 
+		if not can_move: return
+		
+		if movement_obj.move_direction == Vector3(0,0,0): 
+			movement_obj.move_direction = pathfinding_tilestack.front() - global_transform.origin
 
+		if movement_obj.move_direction.length() > 0.5:
+			service.look_at_direction(self, movement_obj.move_direction)
+			var _p_velocity = movement_obj.move_direction.normalized()
+			var _curr_speed = _walk_speed
 
-## Returns whether the pawn can act this round
-func can_act() -> bool:
-	return (can_move or can_attack) and stats.curr_health > 0
+			# apply jump
+			if movement_obj.move_direction.y > _min_height_to_jump: 
+				_curr_speed = clamp(abs(movement_obj.move_direction.y)*2.3, 3, INF)
+				movement_obj.is_jumping = true
 
+			# fall or move to the edge before falling
+			elif movement_obj.move_direction.y < -_min_height_to_jump:
+				if service.vector_distance_without_y(pathfinding_tilestack.front(), global_transform.origin) <= 0.2:
+					_gravity += Vector3.DOWN * delta * _gravity_strength
+					_p_velocity = (pathfinding_tilestack.front()-global_transform.origin).normalized()+_gravity
+				else:
+					_p_velocity = service.vector_remove_y(movement_obj.move_direction).normalized()
 
-## Makes the pawn half-transparent when it's done with its round
-func _tint_when_unable_to_act() -> void:
-	$Character.modulate = Color(.5, .5, .5) if not can_act() else Color(1,1,1)
+			set_velocity(_p_velocity*_curr_speed)
+			set_up_direction(Vector3.UP)
+			move_and_slide()
+			var _v = _p_velocity
+			if global_transform.origin.distance_to(pathfinding_tilestack.front()) >= 0.15: return
 
-
-## Makes pawn stats visible
-func display_pawn_stats(v) -> void:
-	$CharacterStats.visible = v
-
-
-## Configures pawn, making sure it is centered on its tile
-func configure() -> bool:
-	return _adjust_to_center()
+		pathfinding_tilestack.pop_front()
+		movement_obj.move_direction = Vector3(0,0,0)
+		movement_obj.is_jumping = false
+		_gravity = Vector3.ZERO
+		can_move = pathfinding_tilestack.size() > 0
+		if not can_move:
+			service.adjust_to_center(self, global_transform)
 #endregion

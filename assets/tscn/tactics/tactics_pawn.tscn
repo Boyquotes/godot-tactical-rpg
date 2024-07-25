@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://6eofg7n4asn5"]
+[gd_scene load_steps=18 format=3 uid="uid://6eofg7n4asn5"]
 
 [ext_resource type="Script" path="res://src/tactics/tactics_pawn.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bob12its3i651" path="res://assets/textures/actor/chr_pawn_placeholder.png" id="2"]
+[ext_resource type="Script" path="res://src/tactics/tactics_pawn_service.gd" id="3_qyly1"]
 
 [sub_resource type="CapsuleShape3D" id="13"]
 
@@ -110,6 +111,7 @@ billboard = 1
 alpha_cut = 2
 texture = ExtResource("2")
 vframes = 2
+script = ExtResource("3_qyly1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Character"]
 reset_on_save = false
@@ -139,10 +141,11 @@ parameters/Start/current_length = 0.0
 parameters/Start/current_position = 0.0
 parameters/Start/current_delta = 0.0
 
-[node name="CharacterStats" type="Node3D" parent="."]
+[node name="CharacterUI" type="Node3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.602, 0)
 visible = false
 
-[node name="NameLabel" type="Label3D" parent="CharacterStats"]
+[node name="NameLabel" type="Label3D" parent="Character/CharacterUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 billboard = 1
 outline_modulate = Color(0, 0, 0, 0)
@@ -150,7 +153,7 @@ text = "PawnName"
 font_size = 42
 outline_size = 0
 
-[node name="HealthLabel" type="Label3D" parent="CharacterStats"]
+[node name="HealthLabel" type="Label3D" parent="Character/CharacterUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 billboard = 1
 text = "100/100"
