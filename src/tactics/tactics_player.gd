@@ -122,7 +122,7 @@ func _player_wants_to_attack() -> void:
 
 # --- aux stage funcs --- #
 ## Returns whether the pawn has been centered to tile origin already
-func _is_pawn_centered() -> bool:
+func is_pawn_configured() -> bool:
 	for pawn in get_children():
 		if not pawn.configure():
 			return false
@@ -210,9 +210,4 @@ func move_pawn() -> void:
 	curr_pawn.service.display_pawn_stats(false)
 	if curr_pawn.pathfinding_tilestack.is_empty(): 
 		stage = 0 if not curr_pawn.can_act() else 1
-
-
-## Checks whether pawn is centered
-func post_configure() -> bool:
-	return _is_pawn_centered()
 #endregion

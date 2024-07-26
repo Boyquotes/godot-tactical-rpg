@@ -6,10 +6,6 @@ extends TacticsParticipant
 ## Used by: [TacticsLevel]
 
 
-#region: --- Props ---
-#endregion
-
-
 #region: --- Methods ---
 ## Initiates dependencies & selects a default pawn
 func select_first_pawn() -> void:
@@ -17,7 +13,7 @@ func select_first_pawn() -> void:
 
 
 ## Whether every child pawn is configured
-func _is_pawn_configured() -> bool:
+func is_pawn_configured() -> bool:
 	for pawn in get_children():
 		if not pawn.configure():
 			return false
@@ -63,9 +59,4 @@ func choose_pawn_to_attack() -> void:
 		attackable_pawn.service.display_pawn_stats(true)
 		tactics_camera.target = attackable_pawn
 	stage = 4
-
-
-## Ensures all pawns are configured. Returns true if all pawns are.
-func post_configure() -> bool:
-	return _is_pawn_configured()
 #endregion

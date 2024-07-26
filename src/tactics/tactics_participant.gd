@@ -61,6 +61,11 @@ func configure(my_arena: TacticsArena, my_camera: TacticsCamera, my_control: Tac
 		parent.select_first_pawn()
 
 
+## Ensures all pawns are configured. Returns true if all pawns are.
+func post_configure(parent) -> bool:
+	return parent.is_pawn_configured()
+
+
 ## Whether the opponent can act
 func can_act(is_player, parent: Node3D) -> bool:
 	for p in parent.get_children():

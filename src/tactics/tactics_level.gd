@@ -41,7 +41,7 @@ func _physics_process(delta) -> void:
 #region: --- Methods ---
 ## Checks requirements to begin the first turn.[br]Used by [TacticsPlayer], [TacticsOpponent]
 func _init_turn() -> void:
-	if player.post_configure() and opponent.post_configure():
+	if participant.post_configure(player) and participant.post_configure(opponent):
 		stage = 1
 
 
