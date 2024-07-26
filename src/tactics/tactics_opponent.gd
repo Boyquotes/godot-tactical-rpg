@@ -1,57 +1,19 @@
 class_name TacticsOpponent
-extends Node3D
+extends TacticsParticipant
 ## Handles opponent AI actions and decision-making
 ## 
+## Dependencies: [TacticsParticipant]
 ## Used by: [TacticsLevel]
 
 
 #region: --- Props ---
-var stage = 0
-var curr_pawn
-var attackable_pawn
-
-var tactics_camera: TacticsCamera = null
-var arena: TacticsArena = null
-var targets: Node = null
-
-var ui_control: TacticsControls = null
 #endregion
 
 
 #region: --- Methods ---
-## Main function for the opponent's actions. Controls the flow of actions for the opponent based on the current stage.
-func act(delta: float) -> void:
-	targets = get_parent().get_node("Player")
-	ui_control.set_actions_menu_visibility(false, null)
-	
-	match stage:
-		0: _choose_pawn()
-		1: _chase_nearest_enemy()
-		2: _is_pawn_done_moving()
-		3: _choose_pawn_to_attack()
-		4: _attack_pawn(delta)
-
-
 ## Initiates dependencies & selects a default pawn
-func configure(my_arena: TacticsArena, my_camera: TacticsCamera, my_ui_control: TacticsControls) -> void:
-	tactics_camera = my_camera
-	arena = my_arena
-	ui_control = my_ui_control
+func select_first_pawn() -> void:
 	curr_pawn = get_children().front()
-
-
-## Whether the opponent can act
-func can_act() -> bool:
-	for p in get_children():
-		if p.can_act():
-			return true
-	return stage > 0
-
-
-## Resets all pawns turn
-func reset_turn() -> void:
-	for p in get_children():
-		p.reset_turn()
 
 
 ## Whether every child pawn is configured
@@ -63,7 +25,7 @@ func _is_pawn_configured() -> bool:
 
 
 ## Opponent pawn selection
-func _choose_pawn() -> void:
+func choose_pawn() -> void:
 	arena.reset_all_tile_markers()
 	for p in get_children():
 		if p.can_act():
@@ -73,7 +35,7 @@ func _choose_pawn() -> void:
 
 
 ## Move towards the nearest enemy
-func _chase_nearest_enemy() -> void:
+func chase_nearest_enemy() -> void:
 	arena.reset_all_tile_markers()
 	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.jump, get_children())
 	arena.mark_reachable_tiles(curr_pawn.get_tile(), curr_pawn.stats.mp)
@@ -85,13 +47,13 @@ func _chase_nearest_enemy() -> void:
 
 
 ## Whether pawn movement is finished
-func _is_pawn_done_moving() -> void:
+func is_pawn_done_moving() -> void:
 	if curr_pawn.pathfinding_tilestack.is_empty():
 		stage = 3
 
 
 ## Choose the target pawn to attack
-func _choose_pawn_to_attack() -> void:
+func choose_pawn_to_attack() -> void:
 	arena.reset_all_tile_markers()
 	arena.get_surrounding_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
 	arena.mark_attackable_tiles(curr_pawn.get_tile(), curr_pawn.stats.range)
@@ -100,20 +62,7 @@ func _choose_pawn_to_attack() -> void:
 	if attackable_pawn:
 		attackable_pawn.service.display_pawn_stats(true)
 		tactics_camera.target = attackable_pawn
-	stage = 4 
-
-
-## Executes the attack on the target pawn. Handles attack-adjacent logic and resets the stage after the attack is completed.
-func _attack_pawn(delta: float) -> void:
-	if not attackable_pawn:
-		curr_pawn.can_attack = false
-	else:
-		if not curr_pawn.on_attack(attackable_pawn, delta):
-			return
-		attackable_pawn.service.display_pawn_stats(false)
-		tactics_camera.target = curr_pawn
-	attackable_pawn = null
-	stage = 0
+	stage = 4
 
 
 ## Ensures all pawns are configured. Returns true if all pawns are.

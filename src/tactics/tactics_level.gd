@@ -7,6 +7,7 @@ extends Node3D
 
 
 #region: --- Props ---
+var participant: TacticsParticipant
 var player: TacticsPlayer = null
 var opponent: TacticsOpponent
 var arena: TacticsArena
@@ -18,15 +19,16 @@ var stage: int = 0
 
 #region: --- Processing ---
 func _ready() -> void:
-	player = $Player
-	opponent = $Opponent
+	participant = $Participant
+	player = $Participant/Player
+	opponent = $Participant/Opponent
 	arena = $Arena
 	camera = $TacticsCamera
 	ui_control = $TacticsControls
 	
 	arena.configure_tiles()
-	player.configure(arena, camera, ui_control)
-	opponent.configure(arena, camera, ui_control)
+	player.configure(arena, camera, ui_control, true, player)
+	opponent.configure(arena, camera, ui_control, false, opponent)
 
 
 func _physics_process(delta) -> void:
@@ -45,11 +47,11 @@ func _init_turn() -> void:
 
 ## Turn state management.[br]Used by [TacticsPlayer], [TacticsOpponent]
 func _handle_turn(delta) -> void:
-	if player.can_act(): 
-		player.act(delta)
-	elif opponent.can_act(): 
-		opponent.act(delta)
+	if player.can_act(true, player): 
+		player.act(delta, true, player)
+	elif opponent.can_act(false, opponent): 
+		opponent.act(delta, false, opponent)
 	else:
-		player.reset_turn()
-		opponent.reset_turn()
+		player.reset_turn(true, player)
+		opponent.reset_turn(false, opponent)
 #endregion

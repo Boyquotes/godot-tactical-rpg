@@ -1,19 +1,13 @@
 class_name TacticsPlayer
-extends Node3D
+extends TacticsParticipant
 ## Handles player actions recognition & consequences controller
 ##
-## Dependencies: [TacticsArena], [TacticsCamera], [TacticsControls]
+## Dependencies: [TacticsArena], [TacticsCamera], [TacticsControls], [TacticsParticipant]
 ## Used by: [TacticsLevel]
 
 
 #region: --- Props ---
-var arena: TacticsArena = null
-var tactics_camera: TacticsCamera = null
-var ui_control: TacticsControls = null
-var curr_pawn: TacticsPawn = null ## Currently selected pawn
-var attackable_pawn: TacticsPawn = null ## Storage for an attackable pawn
 var is_joystick = false ## Is the input method a controller?
-var stage: int = 0 ## Controls the current stage in the pawn round process
 #endregion
 
 
@@ -29,12 +23,42 @@ func _input(event: InputEvent) -> void:
 
 
 #region: --- Methods ---
-## Called by [TacticsLevel] to initialize TacticsPlayer with the necessary nodes, 
-## as well as start listening to UI button presses for player actions.
-func configure(my_arena: TacticsArena, my_camera: TacticsCamera, my_control: TacticsControls) -> void:
-	arena = my_arena
-	tactics_camera = my_camera
-	ui_control = my_control
+# --- camera --- #
+## Calls the [TacticsCamera] move_camera() method
+func move_camera() -> void:
+	var h = -Input.get_action_strength("camera_left") + Input.get_action_strength("camera_right")
+	var v = Input.get_action_strength("camera_forward") - Input.get_action_strength("camera_backwards")
+	tactics_camera.move_camera(h, v, is_joystick)
+
+
+## Calls the [TacticsCamera] rotation & free look features
+func camera_rotation() -> void:
+	if Input.is_action_just_pressed("camera_rotate_left"): 
+		tactics_camera.y_rot -= 90
+	elif Input.is_action_just_pressed("camera_rotate_right"): 
+		tactics_camera.y_rot += 90
+	elif Input.is_action_just_pressed("camera_free_look"): 
+		tactics_camera.in_free_look = true
+
+
+## Selects hovered pawn as curr_pawn
+func select_pawn() -> void:
+	arena.reset_all_tile_markers()
+	if curr_pawn: 
+		curr_pawn.service.display_pawn_stats(false)
+	curr_pawn = _select_hovered_pawn()
+	if not curr_pawn: 
+		return
+
+	curr_pawn.service.display_pawn_stats(true)
+	if Input.is_action_just_pressed("ui_accept") and curr_pawn.can_act() and curr_pawn in get_children():
+		tactics_camera.target = curr_pawn
+		stage = 1
+
+
+## Called by [TacticsParticipant] to initialize TacticsPlayer:
+## Select a pawn & start listening to UI button presses for player actions.
+func init_player() -> void:
 	tactics_camera.target = get_children().front()
 
 	var actions = {
@@ -47,22 +71,6 @@ func configure(my_arena: TacticsArena, my_camera: TacticsCamera, my_control: Tac
 
 	for action in actions.keys():
 		ui_control.get_act(action).connect("pressed", Callable(self, actions[action]))
-
-
-## Player Round Handler
-func act(delta: float) -> void:
-	_move_camera()
-	_camera_rotation()
-	ui_control.set_actions_menu_visibility(stage in [1, 2, 3, 5, 6], curr_pawn)
-	match stage:
-		0: _select_pawn()
-		1: _show_available_pawn_actions()
-		2: _show_available_movements()
-		3: _select_new_location()
-		4: _move_pawn()
-		5: _display_attackable_targets()
-		6: _select_pawn_to_attack()
-		7: _attack_pawn(delta)
 
 
 ## Calculates where the mouse pointer actually is on the game canvas
@@ -81,20 +89,6 @@ func _get_3d_canvas_mouse_position(collision_mask: int) -> Object:
 
 	var ray_query = PhysicsRayQueryParameters3D.create(from, to, collision_mask, [])
 	return get_world_3d().direct_space_state.intersect_ray(ray_query).get("collider")
-
-
-## Returns whether the player pawn can act
-func can_act() -> bool:
-	for pawn in get_children(): 
-		if pawn.can_act():
-			return true
-	return stage > 0
-
-
-## Resets all player pawns turn
-func reset_turn() -> void:
-	for pawn in get_children(): 
-		pawn.reset_turn()
 
 
 # --- user action inputs --- #
@@ -152,30 +146,17 @@ func _select_hovered_tile() -> TacticsTile:
 
 
 # --- stages ---- #
-## Selects hovered pawn as curr_pawn
-func _select_pawn() -> void:
-	arena.reset_all_tile_markers()
-	if curr_pawn: 
-		curr_pawn.service.display_pawn_stats(false)
-	curr_pawn = _select_hovered_pawn()
-	if not curr_pawn: 
-		return
-
-	curr_pawn.service.display_pawn_stats(true)
-	if Input.is_action_just_pressed("ui_accept") and curr_pawn.can_act() and curr_pawn in get_children():
-		tactics_camera.target = curr_pawn
-		stage = 1 
 
 
 ## Controller for act() stage 1
-func _show_available_pawn_actions() -> void:
+func show_available_pawn_actions() -> void:
 	curr_pawn.service.display_pawn_stats(true)
 	arena.reset_all_tile_markers()
 	arena.mark_hover_tile(curr_pawn.get_tile())
 
 
 ## Controller for act() stage 3
-func _show_available_movements() -> void:
+func show_available_movements() -> void:
 	arena.reset_all_tile_markers()
 	if not curr_pawn: 
 		return
@@ -187,7 +168,7 @@ func _show_available_movements() -> void:
 
 
 ## Controller for act() stage 6
-func _display_attackable_targets() -> void:
+func display_attackable_targets() -> void:
 	arena.reset_all_tile_markers()
 	if not curr_pawn: 
 		return
@@ -199,7 +180,7 @@ func _display_attackable_targets() -> void:
 
 
 ## Controller for act() stage 4
-func _select_new_location() -> void:
+func select_new_location() -> void:
 	var tile = _get_3d_canvas_mouse_position(1)
 	arena.mark_hover_tile(tile)
 	if Input.is_action_just_pressed("ui_accept") and tile and tile.reachable:
@@ -209,7 +190,7 @@ func _select_new_location() -> void:
 
 
 ## Controller for act() stage 7
-func _select_pawn_to_attack() -> void:
+func select_pawn_to_attack() -> void:
 	curr_pawn.service.display_pawn_stats(true)
 	if attackable_pawn: 
 		attackable_pawn.service.display_pawn_stats(false)
@@ -225,43 +206,10 @@ func _select_pawn_to_attack() -> void:
 
 
 ## Controller for act() stage 5
-func _move_pawn() -> void:
+func move_pawn() -> void:
 	curr_pawn.service.display_pawn_stats(false)
 	if curr_pawn.pathfinding_tilestack.is_empty(): 
 		stage = 0 if not curr_pawn.can_act() else 1
-
-
-## Controller for act() stage 8
-func _attack_pawn(delta) -> void:
-	if not attackable_pawn: 
-		curr_pawn.can_attack = false
-	else:
-		if not curr_pawn.on_attack(attackable_pawn, delta): 
-			return
-
-		attackable_pawn.service.display_pawn_stats(false)
-		tactics_camera.target = curr_pawn
-
-	attackable_pawn = null
-	stage = 0 if not curr_pawn.can_act() else 1
-
-
-# --- camera --- #
-## Calls the [TacticsCamera] move_camera() method
-func _move_camera() -> void:
-	var h = -Input.get_action_strength("camera_left") + Input.get_action_strength("camera_right")
-	var v = Input.get_action_strength("camera_forward") - Input.get_action_strength("camera_backwards")
-	tactics_camera.move_camera(h, v, is_joystick)
-
-
-## Calls the [TacticsCamera] rotation & free look features
-func _camera_rotation() -> void:
-	if Input.is_action_just_pressed("camera_rotate_left"): 
-		tactics_camera.y_rot -= 90
-	elif Input.is_action_just_pressed("camera_rotate_right"): 
-		tactics_camera.y_rot += 90
-	elif Input.is_action_just_pressed("camera_free_look"): 
-		tactics_camera.in_free_look = true
 
 
 ## Checks whether pawn is centered
