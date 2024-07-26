@@ -6,24 +6,18 @@ extends Node3D
 
 
 #region: --- Props ---
-var arena: TacticsArena = null
 var stage: int = 0 ## Controls the current stage in the pawn round process
+
+var arena: TacticsArena = null
 var tactics_camera: TacticsCamera = null
 var ui_control: TacticsControls = null
+
 var curr_pawn: TacticsPawn = null ## Currently selected pawn
 var attackable_pawn: TacticsPawn = null ## Storage for an attackable pawn
-
-var player: TacticsPlayer
-var opponent: TacticsOpponent
-
 var targets: Node = null
-#endregion
 
-
-#region: --- Processing ---
-func _ready():
-	player = $Player
-	opponent = $Opponent
+@onready var player: TacticsPlayer = %TacticsPlayer
+@onready var opponent: TacticsOpponent = %TacticsOpponent
 #endregion
 
 
@@ -45,7 +39,7 @@ func act(delta: float, is_player: bool, parent) -> void:
 			6: parent.select_pawn_to_attack()
 			7: attack_pawn(delta, true)
 	else:
-		targets = get_parent().get_node("Player")
+		targets = get_parent().get_node("%TacticsPlayer")
 		ui_control.set_actions_menu_visibility(false, null)
 
 		match stage:

@@ -19,10 +19,10 @@ var stage: int = 0
 
 #region: --- Processing ---
 func _ready() -> void:
-	participant = $Participant
-	player = $Participant/Player
-	opponent = $Participant/Opponent
-	arena = $Arena
+	participant = $TacticsParticipant
+	player = %TacticsPlayer
+	opponent = %TacticsOpponent
+	arena = $TacticsArena
 	camera = $TacticsCamera
 	ui_control = $TacticsControls
 	
