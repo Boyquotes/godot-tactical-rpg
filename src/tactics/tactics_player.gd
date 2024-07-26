@@ -110,14 +110,14 @@ func _player_wants_to_cancel() -> void:
 
 ## Set stage as player clicks on Wait
 func _player_wants_to_wait() -> void: 
-	curr_pawn.button_wait()
+	curr_pawn.on_wait()
 	stage = 0
 
 
 ## Set stage as player clicks on Next Turn
 func _player_wants_to_skip_turn() -> void: 
 	for pawn in get_children():
-		pawn.button_wait()
+		pawn.on_wait()
 	stage = 0
 
 
@@ -236,7 +236,7 @@ func _attack_pawn(delta) -> void:
 	if not attackable_pawn: 
 		curr_pawn.can_attack = false
 	else:
-		if not curr_pawn.button_attack(attackable_pawn, delta): 
+		if not curr_pawn.on_attack(attackable_pawn, delta): 
 			return
 
 		attackable_pawn.service.display_pawn_stats(false)

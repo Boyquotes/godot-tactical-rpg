@@ -70,19 +70,19 @@ func reset_turn() -> void:
 	can_attack = true
 
 ## Used when the user input is "Wait" -- effectively ends current pawn's turn
-func button_wait() -> void:
+func on_wait() -> void:
 	can_move = false
 	can_attack = false
 
 
 ## Debug feature: ends all pawns turn
-func button_wait_all() -> void:
+func on_wait_all() -> void:
 	can_move = false
 	can_attack = false
 
 
 ## Faces target & applies damage. Returns false if attack hasn't yet finished
-func button_attack(target_pawn: TacticsPawn, delta: float) -> bool:
+func on_attack(target_pawn: TacticsPawn, delta: float) -> bool:
 	service.look_at_direction(self, target_pawn.global_transform.origin-global_transform.origin)
 	if can_attack and _wait_delay > _min_time_for_attack / 4.0: 
 		target_pawn.stats.curr_health = clamp(target_pawn.stats.curr_health-stats.attack_power, 0, INF)

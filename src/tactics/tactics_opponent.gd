@@ -108,7 +108,7 @@ func _attack_pawn(delta: float) -> void:
 	if not attackable_pawn:
 		curr_pawn.can_attack = false
 	else:
-		if not curr_pawn.button_attack(attackable_pawn, delta):
+		if not curr_pawn.on_attack(attackable_pawn, delta):
 			return
 		attackable_pawn.service.display_pawn_stats(false)
 		tactics_camera.target = curr_pawn
