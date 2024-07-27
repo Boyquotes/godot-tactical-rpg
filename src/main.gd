@@ -4,7 +4,7 @@ extends Control
 #region: --- Props ---
 @onready var hud: Control = $HUD
 @onready var menu: Control = $Menu
-@onready var main_3d: Node3D = $Main3D
+@onready var main_3d: Node3D = $World3D
 var level_instance: TacticsLevel
 #endregion
 

@@ -82,6 +82,7 @@ func _get_3d_canvas_mouse_position(collision_mask: int) -> Object:
 
 	var _ray_length = 1_000_000
 	var _camera = get_viewport().get_camera_3d()
+	print(_camera)
 	var _mouse_pointer_origin = get_viewport().get_mouse_position() if not is_joystick else get_viewport().size / 2
 
 	var from = _camera.project_ray_origin(_mouse_pointer_origin)

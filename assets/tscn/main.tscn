@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmyhbnmo3jhkv"]
+[gd_scene load_steps=3 format=3 uid="uid://bmyhbnmo3jhkv"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_pra24"]
+[ext_resource type="Script" path="res://src/world/world.gd" id="2_oggwa"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -34,6 +35,7 @@ offset_right = 85.0
 offset_bottom = 20.0
 text = "Map 1"
 
-[node name="Main3D" type="Node3D" parent="."]
+[node name="World3D" type="Node3D" parent="."]
+script = ExtResource("2_oggwa")
 
 [connection signal="pressed" from="Menu/LoadMap0" to="." method="_on_load_map_0_pressed"]
