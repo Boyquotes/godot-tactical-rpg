@@ -18,16 +18,12 @@ extends Resource
 
 #region Base Stats
 @export_category("Base")
-## Action Points. Usual skill cost: 1-2-3. Finisher: 4. Endgame: 9 AP max.
-@export var ap: int = 3
 ## Movement. Average: 3-5 (base). Endgame: 9 max.
-@export var mp: int = 3
-## Jump height, calculated as half of mp
-@export var jump: float = mp / 2.0
+@export var movement: int = 3
+## Jump height, calculated as half of movement
+@export var jump: float = movement / 2.0
 ## Maximum health of the actor
 @export var max_health: int = 5
-## Replenishable coating of extra health. Armor erodes over damage.
-@export var armor: int = 0
 #endregion
 
 #region Offensive Stats
@@ -36,25 +32,11 @@ extends Resource
 @export var attack_range: int = 1
 ## Attack power of the actor
 @export var attack_power: int = 1
-## Critical Rate. Percentile chance to inflict crit dmg. Max: 65%
-@export var crit_rate: int = 5
-## Extra critical Damage. Base: +30% DMG, Max: +100%.
-@export var crit_dmg: int = 30
-#endregion
-
-#region Defensive Stats
-@export_category("Defensive")
-## Defense (damage resist). Max: 15
-@export var def: int = 0
-## Stability (move resist).
-@export var stab: int = 0
-## Resilience (AP/MP resist).
-@export var resi: int = 0
 #endregion
 
 
 #region Methods
 ## Calculates and sets the jump height based on mp
 func set_jump() -> void:
-	jump = floor(mp / 2.0)
+	jump = floor(movement / 2.0)
 #endregion

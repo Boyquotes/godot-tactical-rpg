@@ -4,19 +4,13 @@
 
 [resource]
 script = ExtResource("1_ednwr")
+override_name = ""
 expertise = "Archer"
 strategy = 3
 level = 1
 sprite = "res://assets/textures/actor/character/chr_pawn_archer.png"
-ap = 3
-mp = 6
+movement = 5
 jump = 3.0
-max_health = 4
-armor = 0
-attack_range = 8
-attack_power = 1
-crit_rate = 5
-crit_dmg = 30
-def = 0
-stab = 0
-resi = 0
+max_health = 35
+attack_range = 6
+attack_power = 10

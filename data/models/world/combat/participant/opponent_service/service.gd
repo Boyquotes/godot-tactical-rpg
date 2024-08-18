@@ -55,8 +55,8 @@ func choose_pawn(opponent: TacticsOpponent) -> void:
 func chase_nearest_enemy(opponent: TacticsOpponent, player_node: Node) -> void:
 	if res.curr_pawn.res.can_move:
 		arena.reset_all_tile_markers()
-		arena.process_surrounding_tiles(res.curr_pawn.get_tile(), res.curr_pawn.stats.mp, opponent.get_children())
-		arena.mark_reachable_tiles(res.curr_pawn.get_tile(), res.curr_pawn.stats.mp)
+		arena.process_surrounding_tiles(res.curr_pawn.get_tile(), res.curr_pawn.stats.movement, opponent.get_children())
+		arena.mark_reachable_tiles(res.curr_pawn.get_tile(), res.curr_pawn.stats.movement)
 		
 		var to: TacticsTile = arena.get_nearest_target_adjacent_tile(res.curr_pawn, player_node.get_children())
 		res.curr_pawn.res.pathfinding_tilestack = arena.get_pathfinding_tilestack(to)

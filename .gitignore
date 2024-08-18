@@ -18,3 +18,4 @@ docs/img/*.import
 docs/img/tutorials/how-to-create-maps/img/*.import
 
 /addons/copilot
+addons/code_fold_unfold/

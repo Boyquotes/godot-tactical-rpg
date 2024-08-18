@@ -4,19 +4,13 @@
 
 [resource]
 script = ExtResource("1_gb38y")
+override_name = ""
 expertise = "Chemist"
 strategy = 1
 level = 1
 sprite = "res://assets/textures/actor/character/chr_pawn_chemist.png"
-ap = 4
-mp = 3
-jump = 1.0
-max_health = 3
-armor = 0
-attack_range = 4
-attack_power = 1
-crit_rate = 5
-crit_dmg = 30
-def = 0
-stab = 0
-resi = 0
+movement = 4
+jump = 2.0
+max_health = 30
+attack_range = 3
+attack_power = 12

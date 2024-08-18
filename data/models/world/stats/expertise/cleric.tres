@@ -4,19 +4,13 @@
 
 [resource]
 script = ExtResource("1_k2p1h")
+override_name = ""
 expertise = "Cleric"
 strategy = 4
 level = 1
 sprite = "res://assets/textures/actor/character/chr_pawn_mage.png"
-ap = 3
-mp = 3
-jump = 1.0
-max_health = 6
-armor = 0
+movement = 4
+jump = 2.0
+max_health = 35
 attack_range = 3
-attack_power = 1
-crit_rate = 5
-crit_dmg = 30
-def = 0
-stab = 0
-resi = 1
+attack_power = 12

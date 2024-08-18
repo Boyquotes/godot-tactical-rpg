@@ -14,18 +14,14 @@ var expertise: String
 var level: int = 1
 
 #region Base Stats
-## Action Points
-var ap: int
 ## Movement Points (The radius the pawn can move)
-var mp: int
+var movement: int
 ## Jump height
 var jump: int
 ## Maximum health
 var max_health: int
 ## Current health
 var curr_health: int
-## Armor value
-var armor: int
 ## Sprite path
 var sprite: String
 #endregion
@@ -33,21 +29,8 @@ var sprite: String
 #region Offensive Stats
 ## Attack power
 var attack_power: int
-## Critical Rate. Percentile chance to inflict crit dmg. Max: 65%
-var crit_rate: int
-## Extra critical Damage. Base: +30% DMG, Max: +100%.
-var crit_dmg: int
 ## Attack range
 var attack_range: int
-#endregion
-
-#region Defensive Stats
-## Defense (chance to resist damage). Max: 65%
-var def: int
-## Stability (move resist)
-var stab: int
-## Resilience (AP/MP resist)
-var resi: int
 #endregion
 
 ## Initialize stats from a StatsResource
@@ -55,20 +38,13 @@ func init(stats: StatsResource) -> void:
 	override_name = stats.override_name
 	expertise = stats.expertise
 	level = stats.level
-	ap = stats.ap
-	mp = stats.mp
+	movement = stats.movement
 	stats.set_jump()
 	max_health = stats.max_health
 	curr_health = max_health
-	armor = stats.armor
 	sprite = stats.sprite
 	attack_power = stats.attack_power
-	crit_rate = stats.crit_rate
-	crit_dmg = stats.crit_dmg
 	attack_range = stats.attack_range
-	def = stats.def
-	stab = stats.stab
-	resi = stats.resi
 
 ## Provided a health operation as a parameter (e.g. "-2", "1"), adds the value to current health. As a consequence, this function serves for both damage and healing.
 func apply_to_curr_health(new: int) -> void:
