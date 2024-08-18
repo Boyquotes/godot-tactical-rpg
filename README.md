@@ -31,7 +31,7 @@ As mentioned before, this project uses [Godot Engine 4.3](https://godotengine.or
     - Configurable camera stray distance (radius)
 - Blender map recognition -- [tutorial for Blender (with or without Godot Export) right here](./docs/tutorials/how-to-create-maps/README.md)!
 - Controller Support
-+
+
 - Complete native Godot editor documentation across the project
 - Toggleable Debugger
     - Sending to Output tab
@@ -40,10 +40,10 @@ As mentioned before, this project uses [Godot Engine 4.3](https://godotengine.or
 ### 4.3 Project refactoring:
 [View Structure Overview Diagram](https://github.com/user-attachments/assets/65bb6862-6e84-4149-af5a-047a04f413eb)
 - @mbusson made the project structure more scalable (shared assets architecture)
-    - Models: Centralized storage for class parameters
-    - Modules: Self-contained reusable units
+    - Models: Centralized storage for class parameters & logic
+    - Modules: Self-contained reusable units (Godot Nodes)
     - Dedicated maps directory
-    - Other various architecture changes to nest components logically
+    - Other smaller architecture changes to nest components logically
 - Adapted code to follow [the official GDScript style guidelines](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html#one-statement-per-line)
 - Slightly optimized framework performance
 
