@@ -51,14 +51,14 @@ func on_mouse_exited() -> void:
 ##
 ## @param force_immediate: Whether to update immediately without animation
 func update_hints_visibility(force_immediate: bool = false) -> void:
-	var target_x = FOLDED_OFFSET if res.input_hints_folded else 0.0
-	var target_alpha = 0.3 if res.input_hints_folded else 1.0
+	var target_x: float = FOLDED_OFFSET if res.input_hints_folded else 0.0
+	var target_alpha: float = 0.3 if res.input_hints_folded else 1.0
 	
 	if force_immediate:
 		controller_hints.position.x = target_x # Set position immediately
 		controller_hints.modulate.a = target_alpha # Set transparency immediately
 	else:
-		var tween = create_tween()
+		var tween: Tween = create_tween()
 		tween.set_parallel(true)
 		tween.set_trans(Tween.TRANS_SINE)
 		tween.set_ease(Tween.EASE_IN_OUT)
