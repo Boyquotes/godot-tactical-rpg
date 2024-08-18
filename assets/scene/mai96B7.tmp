@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmyhbnmo3jhkv"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_pra24"]
+[ext_resource type="Script" path="res://src/world.gd" id="2_bfr0a"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_pra24")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MapSelector" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 161.0
+offset_bottom = 307.0
+
+[node name="LoadMap0" type="Button" parent="UI/MapSelector"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 85.0
+offset_bottom = 20.0
+text = "Map 1"
+
+[node name="World3D" type="Node3D" parent="."]
+script = ExtResource("2_bfr0a")
+
+[connection signal="pressed" from="UI/MapSelector/LoadMap0" to="." method="_on_load_map_0_pressed"]

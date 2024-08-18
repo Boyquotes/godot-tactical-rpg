@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="StatsResource" load_steps=2 format=3 uid="uid://1fetqfwxu88y"]
+
+[ext_resource type="Script" path="res://data/models/world/stats/stats_res.gd" id="1_ednwr"]
+
+[resource]
+script = ExtResource("1_ednwr")
+expertise = "Archer"
+strategy = 3
+level = 1
+sprite = "res://assets/textures/actor/character/chr_pawn_archer.png"
+ap = 3
+mp = 6
+jump = 3.0
+max_health = 4
+armor = 0
+attack_range = 8
+attack_power = 1
+crit_rate = 5
+crit_dmg = 30
+def = 0
+stab = 0
+resi = 0
