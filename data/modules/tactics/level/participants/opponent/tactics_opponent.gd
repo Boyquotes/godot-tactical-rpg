@@ -23,6 +23,7 @@ func is_pawn_configured() -> bool:
 
 ## Chooses a pawn for the opponent to act with
 func choose_pawn() -> void:
+	print("choose_pawn() if forwarding.")
 	opponent_serv.choose_pawn(self) # Delegate to the service
 
 

@@ -11,6 +11,6 @@ level = 1
 sprite = "res://assets/textures/actor/mob/chr_pawn_skeleton.png"
 movement = 5
 jump = 1.0
-max_health = 25
+max_health = 12
 attack_range = 6
 attack_power = 10

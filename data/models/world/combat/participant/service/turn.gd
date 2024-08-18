@@ -56,6 +56,9 @@ func handle_player_turn(delta: float, player: TacticsPlayer, participant: Tactic
 func handle_opponent_turn(delta: float, opponent: TacticsOpponent, participant: TacticsParticipant) -> void:
 	res.targets = participant.get_node("%TacticsPlayer")
 	controls.set_actions_menu_visibility(false, null)
+	if res.stage > 4:
+		res.stage = 0
+		DebugLog.debug_nospam("turn_stage", res.stage)
 	match res.stage:
 		res.STAGE_SELECT_PAWN: opponent.choose_pawn()
 		res.STAGE_SHOW_ACTIONS: opponent.chase_nearest_enemy()
