@@ -28,10 +28,6 @@ func _init(_res: TacticsParticipantResource, _camera: TacticsCameraResource, _co
 ## @param delta: Time elapsed since the last frame
 ## @param is_player: Whether the attacking pawn belongs to the player
 func attack_pawn(delta: float, is_player: bool) -> void:
-	# Reset opponent stats display
-	if res.display_opponent_stats:
-		res.display_opponent_stats = false
-	
 	# Handle case when no attackable pawn is available
 	if not res.attackable_pawn:
 		res.curr_pawn.res.can_attack = false
@@ -45,6 +41,9 @@ func attack_pawn(delta: float, is_player: bool) -> void:
 	
 	# Reset attackable pawn
 	res.attackable_pawn = null
+	# Reset opponent stats display
+	if res.display_opponent_stats:
+		res.display_opponent_stats = false
 	
 	# Determine next stage based on current pawn's ability to act and whether it's a player pawn
 	if not res.curr_pawn.can_act() or not is_player:

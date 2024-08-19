@@ -30,7 +30,7 @@ gdscript/warnings/unsafe_call_argument=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/code_fold_unfold/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
+enabled=PackedStringArray()
 
 [file_customization]
 

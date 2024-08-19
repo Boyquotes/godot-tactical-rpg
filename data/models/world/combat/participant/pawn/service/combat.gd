@@ -9,26 +9,27 @@ extends RefCounted
 ## @param target_pawn: The TacticsPawn being attacked
 ## @param delta: Time elapsed since the last frame
 ## @return: Whether the attack was completed
-func attack_pawn(delta: float, is_player: bool) -> void:
-	# Handle case when no attackable pawn is available
-	if not res.attackable_pawn:
-		res.curr_pawn.res.can_attack = false
-	else:
-		# Attempt to attack the target pawn
-		if not res.curr_pawn.attack_target_pawn(res.attackable_pawn, delta):
-			return
-		# Hide actions menu and focus camera on attacking pawn
-		controls.set_actions_menu_visibility(false, res.attackable_pawn)
-		camera.target = res.curr_pawn
+func attack_target_pawn(pawn: TacticsPawn, target_pawn: TacticsPawn, delta: float) -> bool:
+	# Make the attacking pawn face the target
+	pawn.serv.movement.look_at_direction(pawn, target_pawn.global_position - pawn.global_position)
 	
-	# Reset attackable pawn
-	res.attackable_pawn = null
-	# Reset opponent stats display
-	if res.display_opponent_stats:
-		res.display_opponent_stats = false
+	# Check if the pawn can attack and enough time has passed for the attack animation
+	if pawn.res.can_attack and pawn.res.wait_delay > TacticsPawnResource.MIN_TIME_FOR_ATTACK / 4.0:
+		# Apply damage to the target pawn
+		target_pawn.stats.apply_to_curr_health(-pawn.stats.attack_power)
+		
+		# Print debug information if debug mode is enabled
+		if DebugLog.debug_enabled:
+			print_rich("[color=pink]Attacked ", target_pawn, " for ", pawn.stats.attack_power, " damage.[/color]")
+		
+		# Set the attacking state to false
+		pawn.res.set_attacking(false)
 	
-	# Determine next stage based on current pawn's ability to act and whether it's a player pawn
-	if not res.curr_pawn.can_act() or not is_player:
-		res.stage = res.STAGE_SELECT_PAWN
-	elif res.curr_pawn.can_act() and is_player:
-		res.stage = res.STAGE_SHOW_ACTIONS
+	# If the minimum time for attack hasn't passed, increment the wait delay
+	if pawn.res.wait_delay < TacticsPawnResource.MIN_TIME_FOR_ATTACK:
+		pawn.res.wait_delay += delta
+		return false
+	
+	# Reset the wait delay and return true to indicate the attack is complete
+	pawn.res.wait_delay = 0.0
+	return true
