@@ -4,7 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Godot v3.4](https://img.shields.io/badge/Godot-v3.4-blue.svg)](https://github.com/ramaureirac/godot-tactical-rpg/tree/release/godot-v3.4)
 [![Godot v4.0](https://img.shields.io/badge/Godot-v4.0-blue.svg)](https://github.com/ramaureirac/godot-tactical-rpg/tree/release/godot-v4.0)
-[![Godot v4.0](https://img.shields.io/badge/Godot-v4.3-blue.svg)](https://github.com/ramaureirac/godot-tactical-rpg/tree/release/godot-v4.3)
+[![Godot v4.2](https://img.shields.io/badge/Godot-v4.2-blue.svg)](https://github.com/ramaureirac/godot-tactical-rpg/tree/release/godot-v4.2)
+[![Godot v4.3](https://img.shields.io/badge/Godot-v4.3-blue.svg)](https://github.com/ramaureirac/godot-tactical-rpg/tree/release/godot-v4.3)
 
 
 A simple template for making <i>tactical role-playing games</i> on [Godot Engine 4](https://godotengine.org/).
