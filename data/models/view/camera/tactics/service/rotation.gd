@@ -58,8 +58,9 @@ func check_free_look_activation(delta: float, camera: TacticsCamera) -> void:
 			DebugLog.debug_nospam("joystick_free_look", false)
 	else: # ---------------------- keyboard & mouse
 		# Disable as soon as TacticsControl-detected input is released
-		if not Input.is_action_pressed("camera_free_look") and res.in_free_look:
+		if not InputCaptureResource.free_look_pressed and res.in_free_look:
 			deactivate_free_look(camera)
+			# var input_dir: Vector2 = InputCaptureResource.cam_direction
 
 
 ## Deactivates free look mode

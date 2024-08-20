@@ -5,17 +5,19 @@ extends Resource
 ## This resource class holds various input states and configurations used for input processing
 ## in the game. It includes settings for both mouse and joystick input, as well as camera control parameters.
 
-# State
-## The current direction of the camera
-static var cam_direction: Vector2
+# Input State
 ## Indicates whether joystick input is currently active
 static var is_joystick: bool = false
+
 ## The current position of the mouse cursor
 var mouse_position: Vector2 = Vector2.ZERO
 ## The current position of the joystick
 var joystick_position: Vector2 = Vector2.ZERO
-## The current Camera3D node
-var camera: Camera3D
+
+## The current direction of the camera
+static var cam_direction: Vector2
+## Indicates whether free look input is currently active
+static var free_look_pressed: bool = false
 
 # Mapping
 const CAMERA_PAN_KEYS: Array[String] = ["camera_left", "camera_right", "camera_forward", "camera_backwards"]

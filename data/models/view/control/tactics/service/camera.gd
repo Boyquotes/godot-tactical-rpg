@@ -29,6 +29,6 @@ func handle_rotation_inputs(delta: float) -> void:
 	elif Input.is_action_just_pressed("camera_rotate_right"):
 		if not t_cam.in_free_look:
 			t_cam.rotate_camera(delta, 90)
-	elif Input.is_action_just_pressed("camera_free_look"):
+	elif InputCaptureResource.free_look_pressed:
 		if not t_cam.is_rotating:
 			t_cam.in_free_look = true

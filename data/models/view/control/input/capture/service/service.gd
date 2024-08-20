@@ -8,8 +8,18 @@ func _init(_res: InputCaptureResource) -> void:
 
 
 func process_input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		# Handle key presses
+	if event is InputEventMouseButton:
+		# --- MOUSE BUTTONS ---
+		if event.pressed:
+			# free look toggle
+			if event.is_action("camera_free_look"):
+				res.free_look_pressed = true
+		else:
+			# free look toggle
+			if event.is_action_released("camera_free_look"):
+				res.free_look_pressed = false
+	elif event is InputEventKey:
+		# ----- KEYS -----
 		if event.pressed:
 			for action: StringName in res.CAMERA_PAN_KEYS:
 				if event.is_action(action):
@@ -19,6 +29,7 @@ func process_input(event: InputEvent) -> void:
 					return
 		# Handle key releases
 		else:
+			# camera pan direction (WASD)
 			for action: StringName in res.CAMERA_PAN_KEYS:
 				if event.is_action_released(action):
 					# Recalculate cam_direction after key release
@@ -50,7 +61,7 @@ func project_mouse_position(collision_mask: int, is_joystick: bool, input_captur
 
 
 func setup_debug_ray(parent: Node3D) -> MeshInstance3D:
-	var debug_ray_mesh = MeshInstance3D.new()
+	var debug_ray_mesh: MeshInstance3D = MeshInstance3D.new()
 	var mesh: ImmediateMesh = ImmediateMesh.new()
 	debug_ray_mesh.mesh = mesh
 	var material: StandardMaterial3D = StandardMaterial3D.new()
