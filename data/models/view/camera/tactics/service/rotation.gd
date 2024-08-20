@@ -58,8 +58,9 @@ func check_free_look_activation(delta: float, camera: TacticsCamera) -> void:
 			DebugLog.debug_nospam("joystick_free_look", false)
 	else: # ---------------------- keyboard & mouse
 		# Disable as soon as TacticsControl-detected input is released
-		if not Input.is_action_pressed("camera_free_look") and res.in_free_look:
+		if not InputCaptureResource.free_look_pressed and res.in_free_look:
 			deactivate_free_look(camera)
+			# var input_dir: Vector2 = InputCaptureResource.cam_direction
 
 
 ## Deactivates free look mode
@@ -91,14 +92,14 @@ func get_free_look_input() -> Vector2:
 
 ## Gets joystick input for free look
 func get_free_look_joystick_input() -> Vector2:
-	var right_stick_x: float = -Input.get_joy_axis(0, res.R_JOYSTICK_X)
-	var right_stick_y: float = Input.get_joy_axis(0, res.R_JOYSTICK_Y)
+	var right_stick_x: float = InputCaptureResource.right_stick_x
+	var right_stick_y: float = InputCaptureResource.right_stick_y
 	
 	var input: Vector2 = Vector2.ZERO
-	if abs(right_stick_x) > res.CONTROLLER_DEADZONE:
-		input.x = -right_stick_x * res.rot_speed * res.RIGHT_STICK_SENSITIVITY
-	if abs(right_stick_y) > res.CONTROLLER_DEADZONE:
-		input.y = right_stick_y * res.rot_speed * res.RIGHT_STICK_SENSITIVITY
+	if abs(right_stick_x) > InputCaptureResource.CONTROLLER_DEADZONE:
+		input.x = -right_stick_x * res.rot_speed * InputCaptureResource.RIGHT_STICK_SENSITIVITY
+	if abs(right_stick_y) > InputCaptureResource.CONTROLLER_DEADZONE:
+		input.y = right_stick_y * res.rot_speed * InputCaptureResource.RIGHT_STICK_SENSITIVITY
 	
 	return input
 
@@ -123,9 +124,9 @@ func reset_twist_pitch_inputs() -> void:
 
 ## Checks if joystick input is active
 func is_joystick_input_active() -> bool:
-	var right_stick_x: float = -Input.get_joy_axis(0, res.R_JOYSTICK_X)
-	var right_stick_y: float = Input.get_joy_axis(0, res.R_JOYSTICK_Y)
-	return abs(right_stick_x) > res.CONTROLLER_DEADZONE or abs(right_stick_y) > res.CONTROLLER_DEADZONE
+	var right_stick_x: float = InputCaptureResource.right_stick_x
+	var right_stick_y: float = InputCaptureResource.right_stick_y
+	return abs(right_stick_x) > InputCaptureResource.CONTROLLER_DEADZONE or abs(right_stick_y) > InputCaptureResource.CONTROLLER_DEADZONE
 
 
 ## Snaps the camera to the nearest quadrant when free look is deactivated

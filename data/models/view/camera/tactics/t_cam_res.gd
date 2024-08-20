@@ -95,14 +95,6 @@ var in_free_look: bool:
 		DebugLog.debug_nospam("in_free_look", val) # Log free look state
 ## Timer for free look mode
 var free_look_timer: float = 0.0
-## Joystick axis for horizontal rotation
-const R_JOYSTICK_X: JoyAxis = JoyAxis.JOY_AXIS_RIGHT_X
-## Joystick axis for vertical rotation
-const R_JOYSTICK_Y: JoyAxis = JoyAxis.JOY_AXIS_RIGHT_Y
-## Deadzone for controller input
-const CONTROLLER_DEADZONE: float = 0.1
-## Sensitivity of right stick input
-const RIGHT_STICK_SENSITIVITY: float = 1.0
 ## Timeout for free look mode
 const FREE_LOOK_TIMEOUT: float = 0.05
 ## Input for twisting rotation

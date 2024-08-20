@@ -11,7 +11,7 @@ var participant: TacticsParticipantResource
 ## Reference to the TacticsArenaResource.
 var arena: TacticsArenaResource
 ## Node for capturing mouse clicks.
-var mouse_click_capture: Node
+var input_capture: Node
 ## Service for handling input-related operations.
 var input_service: TacticsControlsInputService
 ## Service for managing UI-related operations.
@@ -23,13 +23,13 @@ var pawn_selection_service: TacticsControlsSelectionService
 
 
 ## Initializes the TacticsControlsService with necessary resources and services.
-func _init(_controls: TacticsControlsResource, _t_cam: TacticsCameraResource, _participant: TacticsParticipantResource, _arena: TacticsArenaResource, _mouse_click_capture: Node) -> void:
+func _init(_controls: TacticsControlsResource, _t_cam: TacticsCameraResource, _participant: TacticsParticipantResource, _arena: TacticsArenaResource, _inputk_capture: Node) -> void:
 	controls = _controls
 	t_cam = _t_cam
 	participant = _participant
 	arena = _arena
-	mouse_click_capture = _mouse_click_capture
-	input_service = TacticsControlsInputService.new(controls, mouse_click_capture)
+	input_capture = _inputk_capture
+	input_service = TacticsControlsInputService.new(controls, input_capture)
 	ui_service = TacticsUIService.new(controls)
 	camera_service = TacticsControlsCameraService.new(t_cam)
 	pawn_selection_service = TacticsControlsSelectionService.new(participant, arena, controls, t_cam, input_service)
