@@ -21,6 +21,7 @@ func process_input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		# ----- KEYS -----
 		if event.pressed:
+			# camera pan direction (WASD)
 			for action: StringName in res.CAMERA_PAN_KEYS:
 				if event.is_action(action):
 					res.cam_direction = Input.get_vector(
@@ -37,6 +38,16 @@ func process_input(event: InputEvent) -> void:
 					return
 	elif event is InputEventJoypadMotion:
 		# --- JOYSTICKS ---
+		# camera pan direction (left joystick)
+		if event.axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
+			if abs(event.axis_value) > res.CONTROLLER_DEADZONE:
+				res.left_stick_x = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_X)
+				res.left_stick_y = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_Y)
+			elif abs(event.axis_value) < res.CONTROLLER_DEADZONE:
+				res.left_stick_x = 0.0
+				res.left_stick_y = 0.0
+			res.cam_direction = Vector2(res.left_stick_x, res.left_stick_y)
+		# camera free look direction (right joystick)
 		if event.axis in [JOY_AXIS_RIGHT_X, JOY_AXIS_RIGHT_Y]:
 			if abs(event.axis_value) > res.CONTROLLER_DEADZONE:
 				res.right_stick_x = -Input.get_joy_axis(0, JoyAxis.JOY_AXIS_RIGHT_X)

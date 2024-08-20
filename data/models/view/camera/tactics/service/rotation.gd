@@ -47,7 +47,7 @@ func rotate_camera(delta: float, t_pivot: Node3D, p_pivot: Node3D) -> void:
 
 ## Checks and handles free look activation based on input type
 func check_free_look_activation(delta: float, camera: TacticsCamera) -> void:
-	if controls.is_joystick: # --- gamepad
+	if controls.is_joystick: # ----------------------------------------- gamepad
 		if is_joystick_input_active():
 			DebugLog.debug_nospam("joystick_free_look", true)
 			res.in_free_look = true
@@ -56,11 +56,10 @@ func check_free_look_activation(delta: float, camera: TacticsCamera) -> void:
 			update_free_look_timer(delta, camera)
 		else:
 			DebugLog.debug_nospam("joystick_free_look", false)
-	else: # ---------------------- keyboard & mouse
+	else: # --------------------------------------------------- keyboard & mouse
 		# Disable as soon as TacticsControl-detected input is released
 		if not InputCaptureResource.free_look_pressed and res.in_free_look:
 			deactivate_free_look(camera)
-			# var input_dir: Vector2 = InputCaptureResource.cam_direction
 
 
 ## Deactivates free look mode

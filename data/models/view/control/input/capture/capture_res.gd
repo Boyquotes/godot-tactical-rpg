@@ -14,6 +14,10 @@ var joystick_position: Vector2 = Vector2.ZERO
 static var right_stick_x: float
 ## Y-axis compound value of the right joystick
 static var right_stick_y: float
+## X-axis compound value of the right joystick
+static var left_stick_x: float
+## Y-axis compound value of the left joystick
+static var left_stick_y: float
 
 ## The current position of the mouse cursor
 var mouse_position: Vector2 = Vector2.ZERO
