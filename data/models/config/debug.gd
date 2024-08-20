@@ -7,6 +7,7 @@ extends RefCounted
 
 ## Enables or disables debug mode.
 static var debug_enabled: bool = true
+static var visual_debug: bool = true # mouse cursor raycast, etc -- false by default (because visually invasive)
 
 ## Dictionary of color codes for different debug message types.
 const DEBUG_COLORS: Dictionary = {

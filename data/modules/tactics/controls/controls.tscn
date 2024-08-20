@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bky8ul2628kxw"]
+[gd_scene load_steps=8 format=3 uid="uid://bky8ul2628kxw"]
 
 [ext_resource type="Script" path="res://data/modules/tactics/controls/controls.gd" id="1_w0r3x"]
 [ext_resource type="Texture2D" uid="uid://crwcj7eegnn36" path="res://assets/textures/ui/labels/controls-ui-xbox.png" id="2_f67pw"]
 [ext_resource type="PackedScene" uid="uid://bnbmlef2v2yjw" path="res://data/modules/ui/input/input_capture.tscn" id="3_f1qn4"]
 [ext_resource type="Script" path="res://data/modules/ui/input/input_capture.gd" id="4_d41kv"]
+[ext_resource type="Resource" uid="uid://3bycamg76443" path="res://data/models/view/control/input/capture/capture.tres" id="5_4uppb"]
 [ext_resource type="Script" path="res://data/modules/ui/hints/input_hints.gd" id="5_hgdl1"]
 [ext_resource type="Resource" uid="uid://c2mvnq00bfcw5" path="res://data/models/view/camera/tactics/camera.tres" id="5_xo7di"]
 
@@ -18,8 +19,9 @@ mouse_filter = 2
 script = ExtResource("1_w0r3x")
 t_cam = ExtResource("5_xo7di")
 
-[node name="MouseClickCapture" parent="." instance=ExtResource("3_f1qn4")]
+[node name="InputCapture" parent="." instance=ExtResource("3_f1qn4")]
 script = ExtResource("4_d41kv")
+res = ExtResource("5_4uppb")
 
 [node name="Hints" type="Container" parent="."]
 unique_name_in_owner = true

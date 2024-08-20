@@ -44,9 +44,8 @@ func process(delta: float, camera: TacticsCamera) -> void:
 	elif not res.is_snapping_to_quad:
 		rotate.rotate_camera(delta, camera.t_pivot, camera.p_pivot)
 	
-	var input_dir: Vector2 = Input.get_vector(
-			"camera_left", "camera_right", "camera_forward", "camera_backwards")
-	if pan.is_pressing_wasd(input_dir):
+	var input_dir: Vector2 = InputCaptureResource.cam_direction
+	if input_dir != Vector2.ZERO:
 		pan.wasd_pan(delta, camera, input_dir)
 	elif pan.is_cursor_near_edge(camera) and not controls.is_joystick:
 		pan.edge_pan(delta, camera)
