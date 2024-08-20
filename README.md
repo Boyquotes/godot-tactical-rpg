@@ -1,4 +1,9 @@
 ![banner](./docs/img/banner.png)
+<hr>
+
+[>>> Wanna Get Started ASAP? Read Our Wiki! <<<](https://github.com/ramaureirac/godot-tactical-rpg/wiki)
+
+<hr>
 
 # About
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
