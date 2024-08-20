@@ -8,11 +8,15 @@ extends Resource
 # Input State
 ## Indicates whether joystick input is currently active
 static var is_joystick: bool = false
+## The current position of the joystick
+var joystick_position: Vector2 = Vector2.ZERO
+## X-axis compound value of the right joystick
+static var right_stick_x: float
+## Y-axis compound value of the right joystick
+static var right_stick_y: float
 
 ## The current position of the mouse cursor
 var mouse_position: Vector2 = Vector2.ZERO
-## The current position of the joystick
-var joystick_position: Vector2 = Vector2.ZERO
 
 ## The current direction of the camera
 static var cam_direction: Vector2
@@ -25,10 +29,15 @@ const CAMERA_PAN_KEYS: Array[String] = ["camera_left", "camera_right", "camera_f
 # Configuration
 ## The maximum length for the ray used in mouse cursor position casting
 var RAY_LENGTH: int = 10_000
+
 ## The sensitivity of mouse input
 @export var mouse_sensitivity: float = 1.0
-## The deadzone for joystick input to prevent unintended movement from small inputs
-@export var joystick_deadzone: float = 0.1
+
+## Deadzone for controller input to prevent unintended movement from small inputs
+const CONTROLLER_DEADZONE: float = 0.05
+## Sensitivity of right stick input
+const RIGHT_STICK_SENSITIVITY: float = 1.0
+
 ## The speed at which the camera moves
 @export var camera_move_speed: float = 10.0
 ## The speed at which the camera rotates

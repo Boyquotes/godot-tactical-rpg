@@ -35,6 +35,23 @@ func process_input(event: InputEvent) -> void:
 					# Recalculate cam_direction after key release
 					res.cam_direction = Input.get_vector("camera_left", "camera_right", "camera_forward", "camera_backwards")
 					return
+	elif event is InputEventJoypadMotion:
+		# --- JOYSTICKS ---
+		if event.axis in [JOY_AXIS_RIGHT_X, JOY_AXIS_RIGHT_Y]:
+			if abs(event.axis_value) > res.CONTROLLER_DEADZONE:
+				res.right_stick_x = -Input.get_joy_axis(0, JoyAxis.JOY_AXIS_RIGHT_X)
+				res.right_stick_y = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_RIGHT_Y)
+			elif abs(event.axis_value) < res.CONTROLLER_DEADZONE:
+				res.right_stick_x = 0.0
+				res.right_stick_y = 0.0
+	elif event is InputEventJoypadButton:
+		# --- JOY BUTTONS ---
+		if event.pressed:
+			# 
+			pass
+		else:
+			# 
+			pass
 
 
 func handle_input(_event: InputEvent) -> void:
