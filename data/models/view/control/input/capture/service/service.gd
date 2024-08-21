@@ -18,6 +18,8 @@ func process_input(event: InputEvent) -> void:
 			# free look toggle
 			if event.is_action_released("camera_free_look"):
 				res.free_look_pressed = false
+		# free_look motion capture handled directly by camera model service's handle_input()
+		# camera zoom scroll capture also handled by cam model service handle_input()
 	elif event is InputEventKey:
 		# ----- KEYS -----
 		if event.pressed:
