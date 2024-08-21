@@ -46,10 +46,13 @@ func process(delta: float, camera: TacticsCamera) -> void:
 	
 	var input_dir: Vector2 = InputCaptureResource.cam_direction
 	if input_dir != Vector2.ZERO:
+		print("WASD")
 		pan.wasd_pan(delta, camera, input_dir)
 	elif pan.is_cursor_near_edge(camera) and not controls.is_joystick:
+		print("EDGE")
 		pan.edge_pan(delta, camera)
 	else:
+		print("RESET")
 		res.panning_timer = 0.0
 		move.stabilize_camera(delta, camera)
 	

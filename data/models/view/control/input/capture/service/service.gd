@@ -40,13 +40,15 @@ func process_input(event: InputEvent) -> void:
 		# --- JOYSTICKS ---
 		# camera pan direction (left joystick)
 		if event.axis in [JOY_AXIS_LEFT_X, JOY_AXIS_LEFT_Y]:
-			if abs(event.axis_value) > res.CONTROLLER_DEADZONE:
-				res.left_stick_x = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_X)
-				res.left_stick_y = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_Y)
-			elif abs(event.axis_value) < res.CONTROLLER_DEADZONE:
-				res.left_stick_x = 0.0
-				res.left_stick_y = 0.0
-			res.cam_direction = Vector2(res.left_stick_x, res.left_stick_y)
+			res.left_stick_x = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_X)
+			res.left_stick_y = Input.get_joy_axis(0, JoyAxis.JOY_AXIS_LEFT_Y)
+			
+			# Calculate the magnitude of the joystick input
+			var magnitude = Vector2(res.left_stick_x, res.left_stick_y).length()
+			if magnitude > res.CONTROLLER_DEADZONE:
+				res.cam_direction = Vector2(res.left_stick_x, res.left_stick_y)
+			else:
+				res.cam_direction = Vector2.ZERO
 		# camera free look direction (right joystick)
 		if event.axis in [JOY_AXIS_RIGHT_X, JOY_AXIS_RIGHT_Y]:
 			if abs(event.axis_value) > res.CONTROLLER_DEADZONE:
