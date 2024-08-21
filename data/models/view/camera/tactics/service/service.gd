@@ -46,13 +46,10 @@ func process(delta: float, camera: TacticsCamera) -> void:
 	
 	var input_dir: Vector2 = InputCaptureResource.cam_direction
 	if input_dir != Vector2.ZERO:
-		print("WASD")
 		pan.wasd_pan(delta, camera, input_dir)
 	elif pan.is_cursor_near_edge(camera) and not controls.is_joystick:
-		print("EDGE")
 		pan.edge_pan(delta, camera)
 	else:
-		print("RESET")
 		res.panning_timer = 0.0
 		move.stabilize_camera(delta, camera)
 	
@@ -65,11 +62,12 @@ func process(delta: float, camera: TacticsCamera) -> void:
 
 ## Handle various input events for camera control
 func handle_input(event: InputEvent) -> void:
+	# free_look mouse motion capture
 	if event is InputEventMouseMotion:
 		if res.in_free_look:
 			res.twist_input = -event.relative.x * (FL_ROT_SPEED_DIVIDER * res.rot_speed)
 			res.pitch_input = -event.relative.y * (FL_ROT_SPEED_DIVIDER * res.rot_speed)
-	
+	# camera zoom scroll capture
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
