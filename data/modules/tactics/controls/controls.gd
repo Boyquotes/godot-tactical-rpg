@@ -63,11 +63,6 @@ func move_camera(delta: float) -> void:
 	serv.move_camera(delta)
 
 
-## Handles camera rotation inputs
-func camera_rotation_inputs(delta: float) -> void:
-	serv.camera_rotation_inputs(delta)
-
-
 ## Retrieves an action button node
 func get_act(action: String = "") -> Button:
 	if action == "": 

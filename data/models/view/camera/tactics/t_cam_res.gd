@@ -79,14 +79,21 @@ var is_snapping_to_quad: bool = false:
 		is_snapping_to_quad = val
 		DebugLog.debug_nospam("quad_snap", val) # Log quadrant snap state
 ## Flag to indicate if camera is rotating
-var is_rotating: bool = false:
+static var is_rotating: bool = false:
 	set(val):
 		is_rotating = val
 		DebugLog.debug_nospam("cam_rotating", val) # Log rotation state
 ## Vertical pitch rotation
-@export var x_rot: int
+static var x_rot: int # edit for rotation
+## Vertical pitch rotation
+@export var vertical_rot: int:
+	set(val):
+		x_rot = val
 ## Horizontal twist rotation
-@export var y_rot: int
+static var y_rot: int # edit for rotation
+@export var horizontal_rot: int:
+	set(val):
+		y_rot = val
 ## Roll rotation
 @export var z_rot: int
 ## Current mouse position

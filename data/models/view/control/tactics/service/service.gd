@@ -41,8 +41,6 @@ func setup(ctrl: TacticsControls) -> void:
 		push_error("TacticsControls needs a ControlResource from /data/models/view/controls/tactics/")
 	else:
 		controls.connect("called_set_actions_menu_visibility", ctrl.set_actions_menu_visibility)
-		controls.connect("called_move_camera", ctrl.move_camera)
-		controls.connect("called_camera_rotation", ctrl.camera_rotation_inputs)
 		controls.connect("called_set_cursor_shape_to_move", ctrl.set_cursor_shape_to_move)
 		controls.connect("called_set_cursor_shape_to_arrow", ctrl.set_cursor_shape_to_arrow)
 		controls.connect("called_select_pawn", ctrl.select_pawn)
@@ -63,16 +61,6 @@ func physics_process(_delta: float, ctrl: TacticsControls) -> void:
 ## Handles input events.
 func handle_input(event: InputEvent) -> void:
 	input_service.handle_input(event)
-
-
-## Delegates camera movement to the camera service.
-func move_camera(delta: float) -> void:
-	camera_service.move_camera(delta, controls.is_joystick)
-
-
-## Delegates camera rotation inputs to the camera service.
-func camera_rotation_inputs(delta: float) -> void:
-	camera_service.handle_rotation_inputs(delta)
 
 
 ## Delegates setting actions menu visibility to the UI service.

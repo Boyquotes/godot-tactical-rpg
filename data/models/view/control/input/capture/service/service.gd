@@ -17,6 +17,8 @@ func process_input(event: InputEvent) -> void:
 			# free look toggle
 			if event.is_action("camera_free_look"):
 				res.free_look_pressed = true
+				if not TacticsCameraResource.is_rotating:
+					TacticsCameraResource.in_free_look = true
 			# zoom input -- camera zoom scroll capture
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				TacticsCamera.serv.zoom.zoom_camera(-TacticsCameraResource.zoom_speed)
@@ -34,6 +36,12 @@ func process_input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		# ----- KEYS -----
 		if event.pressed:
+			if event.is_action_pressed("camera_rotate_left"):
+				if not TacticsCameraResource.in_free_look:
+					TacticsCameraResource.y_rot += -90
+			elif event.is_action_pressed("camera_rotate_right"):
+				if not TacticsCameraResource.in_free_look:
+					TacticsCameraResource.y_rot += 90
 			# camera pan direction (WASD)
 			for action: StringName in res.CAMERA_PAN_KEYS:
 				if event.is_action(action):
