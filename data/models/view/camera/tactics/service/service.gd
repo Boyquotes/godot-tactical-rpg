@@ -11,7 +11,6 @@ var pan: TacticsCameraPanningService
 
 const DELTA_SMOOTHING: int = 10
 const MIN_VEL: float = 0.01
-const FL_ROT_SPEED_DIVIDER: float = 0.25
 
 
 ## Initialize the service and its sub-services
@@ -58,19 +57,3 @@ func process(delta: float, camera: TacticsCamera) -> void:
 	
 	move.focus_on_target(camera)
 	zoom.apply_zoom_smoothing(camera, delta)
-
-
-## Handle various input events for camera control
-func handle_input(event: InputEvent) -> void:
-	# free_look mouse motion capture
-	if event is InputEventMouseMotion:
-		if res.in_free_look:
-			res.twist_input = -event.relative.x * (FL_ROT_SPEED_DIVIDER * res.rot_speed)
-			res.pitch_input = -event.relative.y * (FL_ROT_SPEED_DIVIDER * res.rot_speed)
-	# camera zoom scroll capture
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				zoom.zoom_camera(-res.zoom_speed)
-			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				zoom.zoom_camera(res.zoom_speed)

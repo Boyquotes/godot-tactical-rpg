@@ -3,6 +3,9 @@ extends RefCounted
 
 var res: InputCaptureResource
 
+## Magic number for reducing free look mouse motion movement
+const FL_ROT_SPEED_DIVIDER: float = 0.25
+
 func _init(_res: InputCaptureResource) -> void:
 	res = _res
 
@@ -14,12 +17,20 @@ func process_input(event: InputEvent) -> void:
 			# free look toggle
 			if event.is_action("camera_free_look"):
 				res.free_look_pressed = true
+			# zoom input -- camera zoom scroll capture
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				TacticsCamera.serv.zoom.zoom_camera(-TacticsCameraResource.zoom_speed)
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				TacticsCamera.serv.zoom.zoom_camera(TacticsCameraResource.zoom_speed)
 		else:
 			# free look toggle
 			if event.is_action_released("camera_free_look"):
 				res.free_look_pressed = false
-		# free_look motion capture handled directly by camera model service's handle_input()
-		# camera zoom scroll capture also handled by cam model service handle_input()
+	if event is InputEventMouseMotion:
+		# free_look motion capture
+		if TacticsCameraResource.in_free_look:
+			TacticsCameraResource.twist_input = -event.relative.x * (FL_ROT_SPEED_DIVIDER * TacticsCameraResource.rot_speed)
+			TacticsCameraResource.pitch_input = -event.relative.y * (FL_ROT_SPEED_DIVIDER * TacticsCameraResource.rot_speed)
 	elif event is InputEventKey:
 		# ----- KEYS -----
 		if event.pressed:

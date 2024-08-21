@@ -14,7 +14,7 @@ signal called_rotate_camera
 ## Movement speed of the camera
 @export_range(1, 100) var move_speed: int
 ## Rotation speed of the camera
-var rot_speed: float
+static var rot_speed: float
 ## Rotation speed setting, converted to rot_speed
 @export_range(1, 100) var rotation_speed: int:
 	set(val):
@@ -32,8 +32,11 @@ var target: Node3D = null:
 
 #region Zoom
 @export_category("Zoom")
+static var zoom_speed: float
 ## Speed of camera zoom
-@export_range(0.01, 1) var zoom_speed: float = 0.5
+@export_range(0.01, 1) var camera_zoom_speed: float = 0.5:
+	set(val):
+		zoom_speed = float(val)
 ## Smoothness of zoom transition
 @export_range(0.01, 1) var zoom_smoothness: float = 0.1
 ## Duration of zoom transition
@@ -89,7 +92,7 @@ var is_rotating: bool = false:
 ## Current mouse position
 var mouse_pos: Vector2
 ## Flag to indicate if camera is in free look mode
-var in_free_look: bool:
+static var in_free_look: bool:
 	set(val):
 		in_free_look = val
 		DebugLog.debug_nospam("in_free_look", val) # Log free look state
@@ -98,9 +101,9 @@ var free_look_timer: float = 0.0
 ## Timeout for free look mode
 const FREE_LOOK_TIMEOUT: float = 0.05
 ## Input for twisting rotation
-var twist_input: float
+static var twist_input: float
 ## Input for pitch rotation
-var pitch_input: float
+static var pitch_input: float
 ## Size of the viewport
 var viewport_size: Vector2i
 #endregion
