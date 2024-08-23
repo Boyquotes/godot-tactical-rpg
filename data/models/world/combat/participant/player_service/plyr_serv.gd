@@ -70,8 +70,8 @@ func show_available_movements() -> void:
 		return
 	
 	camera.target = p
-	arena.process_surrounding_tiles(p.get_tile(), int(p.stats.mp), p.get_parent().get_children())
-	arena.mark_reachable_tiles(p.get_tile(), p.stats.mp)
+	arena.process_surrounding_tiles(p.get_tile(), int(p.stats.movement), p.get_parent().get_children())
+	arena.mark_reachable_tiles(p.get_tile(), p.stats.movement)
 	res.stage = res.STAGE_SELECT_LOCATION
 
 
