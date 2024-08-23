@@ -22,18 +22,76 @@ const DEBUG_COLORS: Dictionary = {
 
 ## Dictionary to store temporary and old values for various debug states.
 static var debug_dict: Dictionary = {
-	"participant_turn": {"tmp": null, "old": null},
-	"turn_stage": {"tmp": null, "old": null},
-	"pawn": {"tmp": null, "old": null},
-	"cam": {"tmp": null, "old": null},
-	"player_can_act": {"tmp": null, "old": null},
-	"turn_skipped": {"tmp": null, "old": null},
-	"nearest_target_found": {"tmp": null, "old": null},
-	"nearest_target": {"tmp": null, "old": null},
-	"quad_snap": {"tmp": null, "old": null},
-	"cam_rotating": {"tmp": null, "old": null},
-	"in_free_look": {"tmp": null, "old": null},
-	"joystick_free_look": {"tmp": null, "old": null},
+	"participant_turn": {
+		"tmp": null, "old": null,
+		"message": "[ --- Turn Update --- ] 👾 Switched participant: ", 
+		"color": "magenta",
+		"type": "bool",
+		"bool_strings": ["Player", "Opponent"]
+		},
+	"turn_stage": {
+		"tmp": null, "old": null,
+		"message": "🎮 -> Turn stage: ", 
+		"color": "yellow",
+		"type": "concat1"
+		},
+	"pawn": {
+		"tmp": null, "old": null,
+		"message": "[ 👾 ] New pawn selected: ", 
+		"color": "green",
+		"type": "concat1"
+		},
+	"cam": {
+		"tmp": null, "old": null,
+		"message": "[ 📷 ] Camera focuses on: ", 
+		"color": "cyan",
+		"type": "concat1"
+		},
+	"player_can_act": {
+		"tmp": null, "old": null,
+		"message": "[ 👾 ] Can player act? ", 
+		"color": "purple",
+		"type": "bool",
+		"bool_strings": ["-> YES", "-x NO"]
+		},
+	"nearest_target_found": {
+		"tmp": null, "old": null, "type": "concat1",
+		"string": "[ 🏒 ] Destination found: ", 
+		"color": "orange"
+		},
+	"nearest_target": {
+		"tmp": null, "old": null, "type": "concat1",
+		"string": "[ 🏒 ] Not moving. No nearest target found for ", 
+		"color": "red"
+		},
+	"quad_snap": {
+		"tmp": null, "old": null,
+		"message": "[ 📷 ] Quadrant Snapping (is_snapping_to_quad) : ", 
+		"color": "cyan",
+		"type": "bool",
+		"bool_strings": ["Enabled (TRUE)", "Disabled (FALSE)"]
+		},
+	"cam_rotating": {
+		"tmp": null, "old": null,
+		"message": "[ 📷 ] Camera Rotating (is_rotating) : ", 
+		"color": "cyan",
+		"type": "bool",
+		"bool_strings": ["Enabled (TRUE)", "Disabled (FALSE)"]
+		},
+	"in_free_look": {
+		"tmp": null, "old": null,
+		"message": "[ 📷 ] Free Look (in_free_look) : ", 
+		"color": "cyan",
+		"type": "bool",
+		"bool_strings": ["Enabled (TRUE)", "Disabled (FALSE)"]
+		},
+	"joystick_free_look": {
+		"tmp": null, "old": null,
+		"message": "[ 🕹️ ] Joystick Free Look ", 
+		"color": "cyan",
+		"type": "bool",
+		"bool_strings": ["Enabled (TRUE)", "Disabled (FALSE)"]
+		},
 }
 
 
@@ -58,59 +116,36 @@ static func debug_nospam(debug_name: String, argument: Variant) -> void:
 	if debug_name in debug_dict:
 		var _d: Dictionary = debug_dict[debug_name]
 		
-		match debug_name:
-			"participant_turn":
-				_d.tmp = "Player" if argument else "Opponent" # Set tmp value based on argument
-				compare_debug_values("[ --- Turn Update --- ] 👾 Switched participant: ", _d, "magenta")
-			"turn_stage":
-				_d.tmp = argument
-				compare_debug_values("🎮 -> Turn stage: ", _d, "yellow")
-			"pawn":
-				_d.tmp = argument
-				compare_debug_values("[ 👾 ] New pawn selected: ", _d, "green")
-			"cam":
-				if argument != null:
-					_d.tmp = argument
-					compare_debug_values("[ 📷 ] Camera focuses on: ", _d, "cyan")
-			"quad_snap":
-				if argument != null:
-					_d.tmp =  "Enabled (TRUE)" if argument else "Disabled (FALSE)"
-					compare_debug_values("[ 📷 ] Quadrant Snapping (is_snapping_to_quad) : ", _d, "cyan")
-			"cam_rotating":
-				if argument != null:
-					_d.tmp =  "Enabled (TRUE)" if argument else "Disabled (FALSE)"
-					compare_debug_values("[ 📷 ] Camera Rotating (is_rotating) : ", _d, "cyan")
-			"in_free_look":
-				if argument != null:
-					_d.tmp =  "Enabled (TRUE)" if argument else "Disabled (FALSE)"
-					compare_debug_values("[ 📷 ] Free Look (in_free_look) : ", _d, "cyan")
-			"joystick_free_look":
-				if argument != null:
-					_d.tmp =  "Enabled (TRUE)" if argument else "Disabled (FALSE)"
-					compare_debug_values("[ 🕹️ ] Joystick Free Look ", _d, "cyan")
-			"player_can_act":
-				_d.tmp = "-> YES" if argument else "-x NO"
-				compare_debug_values("[ 👾 ] Can player act? ", _d, "purple")
-			"nearest_target_found":
-				_d.tmp = argument
-				compare_debug_values("[ 🏒 ] Destination found: ", _d, "orange")
-			"nearest_target":
-				_d.tmp = argument
-				compare_debug_values("[ 🏒 ] Not moving. No nearest target found for ", _d, "red")
+		match _d.type:
+			"bool":
+				debug_log_bool(debug_name, _d, argument)
+			"concat1":
+				debug_log_concat1(debug_name, _d, argument)
 
 
-## Compares and prints debug values if they have changed.
-##
-## This function checks if the temporary value differs from the old value,
-## and if so, prints a color-coded message and updates the old value.
-##
-## @param message: The message to print before the debug value.
-## @param dict_entry: The dictionary containing temporary and old values.
-## @param warning_color: The color to use for the debug message.
-static func compare_debug_values(message: String, dict_entry: Dictionary, warning_color: String) -> void:
+static func debug_log_bool(debug_name: String, dict_entry: Dictionary, argument) -> void:
+	dict_entry.tmp = argument
+	
 	if dict_entry.old != dict_entry.tmp:
-		var message_color: String = "[color=#" + DEBUG_COLORS[warning_color] + "]"
+		var open_color: String = "[color=#" + DEBUG_COLORS[dict_entry.color] + "]"
 		var close_color: String = "[/color]"
-		print_rich(message_color, message, "[i][u]", dict_entry.tmp, "[/u][/i]", close_color) # Print color-coded message
+		
+		var parse_bool: String = dict_entry.bool_strings[0] if argument else dict_entry.bool_strings[1]
+		
+		print_rich(open_color, dict_entry.message, "[i][u]", parse_bool, "[/u][/i]", close_color) # Print color-coded message
+		
+	if dict_entry.old == null or dict_entry.old != dict_entry.tmp:
+		dict_entry.old = dict_entry.tmp # Update old value if it's null or different from tmp
+
+
+static func debug_log_concat1(debug_name: String, dict_entry: Dictionary, argument) -> void:
+	dict_entry.tmp = argument
+	
+	if dict_entry.old != dict_entry.tmp:
+		var open_color: String = "[color=#" + DEBUG_COLORS[dict_entry.color] + "]"
+		var close_color: String = "[/color]"
+		
+		print_rich(open_color, dict_entry.message, "[i][u]", dict_entry.tmp, "[/u][/i]", close_color) # Print color-coded message
+		
 	if dict_entry.old == null or dict_entry.old != dict_entry.tmp:
 		dict_entry.old = dict_entry.tmp # Update old value if it's null or different from tmp
