@@ -16,7 +16,7 @@ extends CharacterBody3D
 @export var controls: TacticsControlsResource = load("res://data/models/view/control/tactics/control.tres")
 
 ## Service handling camera operations
-var serv: TacticsCameraService
+static var serv: TacticsCameraService
 
 ## Node for horizontal rotation
 @onready var t_pivot: Node3D = $TwistPivot
@@ -39,10 +39,6 @@ func _process(delta: float) -> void:
 	serv.process(delta, self) # Process camera service
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	serv.handle_input(event) # Handle input in camera service
-
-
 ## Moves the camera based on input
 func move_camera(h: float, v: float, joystick: bool, delta: float) -> void:
 	serv.move.move_camera(h, v, joystick, delta, self)
@@ -61,7 +57,7 @@ func free_look(delta: float) -> void:
 
 
 ## Zooms the camera
-func zoom_camera(zoom_increment: float) -> void:
+static func zoom_camera(zoom_increment: float) -> void:
 	serv.zoom.zoom_camera(zoom_increment)
 
 

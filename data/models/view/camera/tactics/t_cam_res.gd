@@ -14,7 +14,7 @@ signal called_rotate_camera
 ## Movement speed of the camera
 @export_range(1, 100) var move_speed: int
 ## Rotation speed of the camera
-var rot_speed: float
+static var rot_speed: float
 ## Rotation speed setting, converted to rot_speed
 @export_range(1, 100) var rotation_speed: int:
 	set(val):
@@ -32,8 +32,11 @@ var target: Node3D = null:
 
 #region Zoom
 @export_category("Zoom")
+static var zoom_speed: float
 ## Speed of camera zoom
-@export_range(0.01, 1) var zoom_speed: float = 0.5
+@export_range(0.01, 1) var camera_zoom_speed: float = 0.5:
+	set(val):
+		zoom_speed = float(val)
 ## Smoothness of zoom transition
 @export_range(0.01, 1) var zoom_smoothness: float = 0.1
 ## Duration of zoom transition
@@ -76,39 +79,38 @@ var is_snapping_to_quad: bool = false:
 		is_snapping_to_quad = val
 		DebugLog.debug_nospam("quad_snap", val) # Log quadrant snap state
 ## Flag to indicate if camera is rotating
-var is_rotating: bool = false:
+static var is_rotating: bool = false:
 	set(val):
 		is_rotating = val
 		DebugLog.debug_nospam("cam_rotating", val) # Log rotation state
 ## Vertical pitch rotation
-@export var x_rot: int
+static var x_rot: int # edit for rotation
+## Vertical pitch rotation
+@export var vertical_rot: int:
+	set(val):
+		x_rot = val
 ## Horizontal twist rotation
-@export var y_rot: int
+static var y_rot: int # edit for rotation
+@export var horizontal_rot: int:
+	set(val):
+		y_rot = val
 ## Roll rotation
 @export var z_rot: int
 ## Current mouse position
 var mouse_pos: Vector2
 ## Flag to indicate if camera is in free look mode
-var in_free_look: bool:
+static var in_free_look: bool:
 	set(val):
 		in_free_look = val
 		DebugLog.debug_nospam("in_free_look", val) # Log free look state
 ## Timer for free look mode
 var free_look_timer: float = 0.0
-## Joystick axis for horizontal rotation
-const R_JOYSTICK_X: JoyAxis = JoyAxis.JOY_AXIS_RIGHT_X
-## Joystick axis for vertical rotation
-const R_JOYSTICK_Y: JoyAxis = JoyAxis.JOY_AXIS_RIGHT_Y
-## Deadzone for controller input
-const CONTROLLER_DEADZONE: float = 0.1
-## Sensitivity of right stick input
-const RIGHT_STICK_SENSITIVITY: float = 1.0
 ## Timeout for free look mode
 const FREE_LOOK_TIMEOUT: float = 0.05
 ## Input for twisting rotation
-var twist_input: float
+static var twist_input: float
 ## Input for pitch rotation
-var pitch_input: float
+static var pitch_input: float
 ## Size of the viewport
 var viewport_size: Vector2i
 #endregion

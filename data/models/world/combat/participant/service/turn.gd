@@ -34,7 +34,6 @@ func handle_player_turn(delta: float, player: TacticsPlayer, participant: Tactic
 		res.turn_just_started = false
 	
 	controls.move_camera(delta)
-	controls.camera_rotation_inputs(delta)
 	controls.set_actions_menu_visibility(res.stage in [res.STAGE_SHOW_ACTIONS, res.STAGE_SHOW_MOVEMENTS, res.STAGE_SELECT_LOCATION, res.STAGE_DISPLAY_TARGETS, res.STAGE_SELECT_ATTACK_TARGET], res.curr_pawn)
 	
 	match res.stage:

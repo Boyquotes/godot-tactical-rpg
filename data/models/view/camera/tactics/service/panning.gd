@@ -9,11 +9,6 @@ func _init(_res: TacticsCameraResource) -> void:
 	res = _res
 
 
-## Checks if WASD keys are being pressed
-func is_pressing_wasd(input_dir: Vector2) -> bool:
-	return input_dir != Vector2.ZERO
-
-
 ## Checks if the cursor is near the screen edge for edge panning
 func is_cursor_near_edge(camera: TacticsCamera) -> bool:
 	refresh_cam_viewport_size(camera)

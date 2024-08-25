@@ -6,8 +6,6 @@ extends Resource
 signal called_set_actions_menu_visibility
 ## Signal emitted when the camera needs to be moved.
 signal called_move_camera
-## Signal emitted when camera rotation inputs are received.
-signal called_camera_rotation
 ## Signal emitted when a pawn needs to be selected.
 signal called_select_pawn
 ## Signal emitted when a pawn needs to be selected for attack.
@@ -42,11 +40,6 @@ func set_actions_menu_visibility(v: bool, p: TacticsPawn) -> void:
 ## Initiates camera movement.
 func move_camera(delta: float) -> void:
 	called_move_camera.emit(delta)
-
-
-## Handles camera rotation inputs.
-func camera_rotation_inputs(delta: float) -> void:
-	called_camera_rotation.emit(delta)
 
 
 ## Selects a pawn for the given player.

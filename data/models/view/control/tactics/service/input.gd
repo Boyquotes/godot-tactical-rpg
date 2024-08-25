@@ -5,13 +5,13 @@ extends RefCounted
 ## Reference to the TacticsControlsResource.
 var controls: TacticsControlsResource
 ## Node for capturing mouse clicks.
-var mouse_click_capture: Node
+var input_capture: Node
 
 
 ## Initializes the TacticsControlsInputService with necessary resources and nodes.
-func _init(_controls: TacticsControlsResource, _mouse_click_capture: Node) -> void:
+func _init(_controls: TacticsControlsResource, _input_capture: Node) -> void:
 	controls = _controls
-	mouse_click_capture = _mouse_click_capture
+	input_capture = _input_capture
 
 
 ## Updates the mouse mode based on whether a joystick is being used.
@@ -25,15 +25,15 @@ func handle_input(event: InputEvent) -> void:
 
 
 ## Gets the 3D position of the mouse in the game world.
-## Returns null if hovering over a UI element or if mouse_click_capture is not set.
+## Returns null if hovering over a UI element or if input_capture is not set.
 func get_3d_canvas_mouse_position(collision_mask: int, ctrl: TacticsControls) -> Object:
 	if is_mouse_hovering_ui_elem(ctrl):
 		return null
 	
-	if mouse_click_capture:
-		return mouse_click_capture.project_mouse_position(collision_mask, controls.is_joystick)
+	if input_capture:
+		return input_capture.project_mouse_position(collision_mask, controls.is_joystick)
 	else:
-		push_error("MouseClickCapture node not found")
+		push_error("InputCapture node not found")
 		return null
 
 

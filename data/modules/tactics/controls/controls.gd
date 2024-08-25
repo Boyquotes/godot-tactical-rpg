@@ -24,13 +24,13 @@ var serv: TacticsControlsService
 ## Texture for PC controls layout
 @onready var layout_pc: Texture2D = load("res://assets/textures/ui/labels/controls-ui.png")
 ## Node for capturing mouse clicks
-@onready var mouse_click_capture: InputCapture = $MouseClickCapture
+@onready var input_capture: InputCapture = $InputCapture
 #endregion
 
 #region: --- Processing ---
 func _ready() -> void:
 	# Initialize the service with necessary resources
-	serv = TacticsControlsService.new(controls, t_cam, participant, arena, mouse_click_capture)
+	serv = TacticsControlsService.new(controls, t_cam, participant, arena, input_capture)
 	serv.setup(self)
 	
 	# Connect action buttons to their respective methods
@@ -61,11 +61,6 @@ func set_cursor_shape_to_arrow() -> void:
 ## Moves the camera based on input
 func move_camera(delta: float) -> void:
 	serv.move_camera(delta)
-
-
-## Handles camera rotation inputs
-func camera_rotation_inputs(delta: float) -> void:
-	serv.camera_rotation_inputs(delta)
 
 
 ## Retrieves an action button node
