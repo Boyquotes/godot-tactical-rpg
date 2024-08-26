@@ -118,12 +118,12 @@ static func debug_nospam(debug_name: String, argument: Variant) -> void:
 		
 		match _d.type:
 			"bool":
-				debug_log_bool(debug_name, _d, argument)
+				debug_log_bool(_d, argument)
 			"concat1":
-				debug_log_concat1(debug_name, _d, argument)
+				debug_log_concat1(_d, argument)
 
 
-static func debug_log_bool(debug_name: String, dict_entry: Dictionary, argument) -> void:
+static func debug_log_bool(dict_entry: Dictionary, argument: Variant) -> void:
 	dict_entry.tmp = argument
 	
 	if dict_entry.old != dict_entry.tmp:
@@ -138,7 +138,7 @@ static func debug_log_bool(debug_name: String, dict_entry: Dictionary, argument)
 		dict_entry.old = dict_entry.tmp # Update old value if it's null or different from tmp
 
 
-static func debug_log_concat1(debug_name: String, dict_entry: Dictionary, argument) -> void:
+static func debug_log_concat1(dict_entry: Dictionary, argument: Variant) -> void:
 	dict_entry.tmp = argument
 	
 	if dict_entry.old != dict_entry.tmp:

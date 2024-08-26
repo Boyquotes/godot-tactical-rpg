@@ -34,7 +34,7 @@ var attack_range: int
 #endregion
 
 ## Initialize stats from a StatsResource
-func init(stats: StatsResource) -> void:
+func import_stats(stats: StatsResource) -> void:
 	override_name = stats.override_name
 	expertise = stats.expertise
 	level = stats.level

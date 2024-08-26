@@ -1,4 +1,3 @@
-@tool
 class_name Expertise
 extends Node
 ## The expertise of a game actor.
@@ -17,4 +16,4 @@ extends Node
 func _ready() -> void:
 	if not starting_stats:
 		push_error("Expertise needs a StatsResource (Starting Stats) from /data/models/stats/") # Error if starting stats are not set
-	stats.init(starting_stats) # Initialize stats from the starting_stats resource
+	stats.import_stats(starting_stats) # Initialize stats from the starting_stats resource
